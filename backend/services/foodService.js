@@ -1,5 +1,2 @@
 const { FoodRepository } = require("../repositories/foodRepository");
-const {
-    ManageUpload, 
-}
-
+const { ManageUpload } = require("../utils/utils");
