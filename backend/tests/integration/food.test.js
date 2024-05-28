@@ -42,7 +42,10 @@ describe("Food tests", () => {
       .field("description", foodResult.description)
       .field("price", foodResult.price)
       .field("category", foodResult.category)
-      .attach("image", path.resolve(__dirname, "../../uploads/test-image.png"))
+      .attach(
+        "image",
+        path.resolve(__dirname, "../utils/images/test-image.png")
+      )
       .expect(200);
 
     expect(response.body.data).toHaveProperty("_id");
