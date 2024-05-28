@@ -1,4 +1,5 @@
 const FoodModel = require("../models/foodModel");
+const fs = require("fs");
 
 class FoodRepository {
   // create new food
@@ -24,6 +25,18 @@ class FoodRepository {
       return foods;
     } catch (err) {
       throw new Error("unable to list foods");
+    }
+  }
+
+  // remove food item
+  async RemoveFood(id) {
+    try {
+      const food = await FoodModel.findById(id);
+      console.log(food);
+      fs.unlink(`uploads/${food.image}`, () => {});
+      await FoodModel.findByIdAndDelete(food._id);
+    } catch (error) {
+      throw new Error("unable to remove food");
     }
   }
 }

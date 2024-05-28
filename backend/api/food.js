@@ -28,4 +28,14 @@ module.exports = (app) => {
       throw new Error("unable to list foods");
     }
   });
+
+  app.delete("/food/remove", async (req, res, next) => {
+    const { id } = req.body.id;
+    try {
+      await foodService.removeFood(id);
+      return res.json({ success: true, message: "Food removed" });
+    } catch (err) {
+      throw new Error("unable to remove foods");
+    }
+  });
 };

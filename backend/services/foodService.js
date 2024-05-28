@@ -23,6 +23,15 @@ class FoodService {
       throw new Error("unable to list foods");
     }
   }
+
+  async removeFood(id) {
+    try {
+      const deletedFood = await this.repository.RemoveFood(id);
+      return FormateData(deletedFood);
+    } catch (err) {
+      throw new Error("unable to list foods");
+    }
+  }
 }
 
 module.exports = FoodService;

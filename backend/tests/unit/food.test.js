@@ -55,4 +55,20 @@ describe("food tests", () => {
     expect(listFoodsResult).toBeDefined();
     expect(listFoodsResult.length).toBeGreaterThan(0);
   });
+  it.skip("Should delete an item by Id", async () => {
+    const foodResult = await foodRepository.AddFood({
+      name: "Greek salad",
+      image: "test",
+      price: 12,
+      description:
+        "Food provides essential nutrients for overall health and well-being",
+      category: "Salad",
+    });
+    await foodRepository.RemoveFood(foodResult._id);
+
+    // Implementar depois que tiver a função de list by ID
+    // const deletedFood = await foodRepository.ListFoods();
+
+    // expect(deletedFood).toBeNull();
+  });
 });

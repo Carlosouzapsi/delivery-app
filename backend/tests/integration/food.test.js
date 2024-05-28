@@ -72,4 +72,20 @@ describe("Food tests", () => {
     const response = await request(app).get("/food/list").expect(200);
     expect(response.body.data).toBeDefined();
   });
+
+  it("Should remove a food by id", async () => {
+    const foodResult = await foodRepository.AddFood({
+      name: "Greek salad",
+      image: "test",
+      price: 12,
+      description:
+        "Food provides essential nutrients for overall health and well-being",
+      category: "Salad",
+    });
+
+    const response = await request(app)
+      .delete(`/food/${foodResult._id}`)
+      .expect(200);
+    console.log(response);
+  });
 });
