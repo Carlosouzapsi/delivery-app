@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db.js");
-const foodRoute = require("./routes/foodRoute.js");
+const foodRouter = require("./routes/foodRoute.js");
 
 // config
 const app = express();
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 connectDB();
 
 // api endpoints
-app.use("/api/food", foodRoute);
+app.use("/api/food", foodRouter);
 
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);

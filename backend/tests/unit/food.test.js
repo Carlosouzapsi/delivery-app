@@ -1,5 +1,5 @@
-const FoodRepository = require("../repositories/foodRepository");
-const { DB_URL } = require("../config");
+const FoodRepository = require("../../repositories/foodRepository");
+const { DB_URL } = require("../../config");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 
