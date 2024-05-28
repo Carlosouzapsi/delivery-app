@@ -6,13 +6,12 @@ class FoodService {
     this.repository = new FoodRepository();
   }
 
-  async addNewFood(FoodInputs) {
+  async addNewFood(foodInputs) {
     try {
-      const foodResult = await this.repository.AddFood(FoodInputs);
-
+      const foodResult = await this.repository.AddFood(foodInputs);
       return FormateData(foodResult);
     } catch (err) {
-      throw new Error("unable to add product");
+      throw new Error("unable to add food");
     }
   }
 }

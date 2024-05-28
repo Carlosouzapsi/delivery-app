@@ -14,8 +14,7 @@ module.exports = (app) => {
         image: image_filename,
         category,
       });
-      return res.json(data);
-      return res.json({ success: true, message: "Food Added" });
+      return res.json({ success: true, message: "Food Added", data: data });
     } catch (err) {
       next(err);
     }

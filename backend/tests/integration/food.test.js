@@ -4,8 +4,13 @@ const FoodService = require("../../services/foodService");
 const { DB_URL } = require("../../config");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
+const path = require("path");
+const expressApp = require("../../express-app");
 
-const app = new express();
+const app = express();
+
+let mongoServer;
+
 const foodService = new FoodService();
 /* Configurar arquivo jest para rodar testes de integração
 separados dos unitários */
@@ -13,6 +18,8 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = await mongoServer.getUri();
   await mongoose.connect(mongoUri, { dbName: DB_URL });
+
+  await expressApp(app);
 });
 
 afterAll(async () => {
@@ -21,18 +28,23 @@ afterAll(async () => {
 });
 
 describe("Food tests", () => {
-  it("add new food", async () => {
+  it("should add new food", async () => {
     const foodResult = {
       name: "Greek salad",
-      image: "test",
+      description: "Food provides essential",
       price: 12,
-      description:
-        "Food provides essential nutrients for overall health and well-being",
       category: "Salad",
     };
 
-    const response = await request(app).post("/food/add").send(foodResult);
-    // .expect(201)
-    console.log(response.status);
+    const response = await request(app)
+      .post("/food/add")
+      .field("name", foodResult.name)
+      .field("description", foodResult.description)
+      .field("price", foodResult.price)
+      .field("category", foodResult.category)
+      .attach("image", path.resolve(__dirname, "../../uploads/test-image.png"))
+      .expect(200);
+
+    expect(response.body.data).toHaveProperty("_id");
   });
 });
