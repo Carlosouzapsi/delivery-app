@@ -6,7 +6,6 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 
 const app = new express();
-app.use("/api/food", foodRouter);
 const foodService = new FoodService();
 /* Configurar arquivo jest para rodar testes de integração
 separados dos unitários */
@@ -32,7 +31,7 @@ describe("Food tests", () => {
       category: "Salad",
     };
 
-    const response = await request(app).post("/api/food/add").send(foodResult);
+    const response = await request(app).post("/food/add").send(foodResult);
     // .expect(201)
     console.log(response.status);
   });

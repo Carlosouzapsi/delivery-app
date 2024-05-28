@@ -1,27 +1,19 @@
 const express = require("express");
-const cors = require("cors");
-const connectDB = require("./config/db.js");
-const foodRouter = require("./routes/foodRoute.js");
+const connectDB = require("./config/db");
+const expressApp = require("./express-app");
 
-// config
-const app = express();
+const startServer = async () => {
+  const app = express();
+  // config
+  const port = 4001; // colocar no .env
+  // db connection
+  await connectDB();
 
-const port = 4000;
+  await expressApp(app);
 
-// middleware
-app.use(express.json());
-app.use(cors());
+  app.listen(port, () => {
+    console.log(`Server Started on http://localhost:${port}`);
+  });
+};
 
-app.get("/", (req, res) => {
-  res.send("API Working");
-});
-
-// db connection
-connectDB();
-
-// api endpoints
-app.use("/api/food", foodRouter);
-
-app.listen(port, () => {
-  console.log(`Server Started on http://localhost:${port}`);
-});
+startServer();
