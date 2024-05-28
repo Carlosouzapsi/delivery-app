@@ -19,4 +19,13 @@ module.exports = (app) => {
       next(err);
     }
   });
+
+  app.get("/food/list", async (req, res, next) => {
+    try {
+      const data = await foodService.listAllFoods();
+      return res.json({ success: true, message: "Food Added", data: data });
+    } catch (err) {
+      throw new Error("unable to list foods");
+    }
+  });
 };

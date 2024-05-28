@@ -14,6 +14,15 @@ class FoodService {
       throw new Error("unable to add food");
     }
   }
+
+  async listAllFoods() {
+    try {
+      const foodsListResult = await this.repository.ListFoods({});
+      return FormateData(foodsListResult);
+    } catch (err) {
+      throw new Error("unable to list foods");
+    }
+  }
 }
 
 module.exports = FoodService;

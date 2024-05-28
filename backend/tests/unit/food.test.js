@@ -32,4 +32,27 @@ describe("food tests", () => {
     expect(foodResult).toHaveProperty("_id");
     expect(foodResult.name).toBe("Greek salad");
   });
+  it("Should list all foods", async () => {
+    await foodRepository.AddFood({
+      name: "Greek salad",
+      image: "test",
+      price: 12,
+      description:
+        "Food provides essential nutrients for overall health and well-being",
+      category: "Salad",
+    });
+    await foodRepository.AddFood({
+      name: "Chicken Salad",
+      image: "test",
+      price: 24,
+      description:
+        "Food provides essential nutrients for overall health and well-being",
+      category: "Salad",
+    });
+
+    const listFoodsResult = await foodRepository.ListFoods();
+
+    expect(listFoodsResult).toBeDefined();
+    expect(listFoodsResult.length).toBeGreaterThan(0);
+  });
 });

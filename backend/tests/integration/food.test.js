@@ -1,6 +1,7 @@
 const express = require("express");
 const request = require("supertest");
 const FoodService = require("../../services/foodService");
+const FoodRepository = require("../../repositories/foodRepository");
 const { DB_URL } = require("../../config");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
@@ -12,6 +13,7 @@ const app = express();
 let mongoServer;
 
 const foodService = new FoodService();
+const foodRepository = new FoodRepository();
 /* Configurar arquivo jest para rodar testes de integração
 separados dos unitários */
 beforeAll(async () => {
@@ -28,7 +30,7 @@ afterAll(async () => {
 });
 
 describe("Food tests", () => {
-  it("should add new food", async () => {
+  it("Should add new food", async () => {
     const foodResult = {
       name: "Greek salad",
       description: "Food provides essential",
@@ -49,5 +51,25 @@ describe("Food tests", () => {
       .expect(200);
 
     expect(response.body.data).toHaveProperty("_id");
+  });
+  it("Should list all foods", async () => {
+    await foodRepository.AddFood({
+      name: "Greek salad",
+      image: "test",
+      price: 12,
+      description:
+        "Food provides essential nutrients for overall health and well-being",
+      category: "Salad",
+    });
+    await foodRepository.AddFood({
+      name: "Chicken Salad",
+      image: "test",
+      price: 24,
+      description:
+        "Food provides essential nutrients for overall health and well-being",
+      category: "Salad",
+    });
+    const response = await request(app).get("/food/list").expect(200);
+    expect(response.body.data).toBeDefined();
   });
 });
