@@ -1,7 +1,7 @@
 const multer = require("multer");
 
 // Image Storage Engine
-module.exports.ManageUpload = async () => {
+module.exports.ManageUpload = (image_file) => {
   const storage = multer.diskStorage({
     destination: "uploads",
     filename: function (req, file, cb) {
@@ -9,7 +9,7 @@ module.exports.ManageUpload = async () => {
     },
   });
   const upload = multer({ storage: storage });
-  return upload;
+  return upload.single(image_file);
 };
 
 module.exports.FormateData = (data) => {
