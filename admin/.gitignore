@@ -7,11 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-/backend/node_modules/
-/admin/node_modules/
-/frontend/node_modules/
-/backend/uploads/
-
+node_modules
 dist
 dist-ssr
 *.local
