@@ -1,5 +1,6 @@
 const FoodService = require("../services/foodService");
 const { ManageUpload } = require("../utils/utils");
+const mongoose = require("mongoose");
 
 module.exports = (app) => {
   const foodService = new FoodService();
@@ -25,17 +26,19 @@ module.exports = (app) => {
       const data = await foodService.listAllFoods();
       return res.json({ success: true, message: "Food Added", data: data });
     } catch (err) {
+      next(err);
       throw new Error("unable to list foods");
     }
   });
 
-  app.delete("/food/remove", async (req, res, next) => {
-    const { id } = req.body.id;
+  app.post("/food/remove", async (req, res, next) => {
+    const { id } = req.body;
     try {
-      await foodService.removeFood(id);
-      return res.json({ success: true, message: "Food removed" });
+      const result = await foodService.removeFoodById(id);
+      return res.json({ success: true, message: "Food removed", data: result });
     } catch (err) {
-      throw new Error("unable to remove foods");
+      throw new Error("unable to remove food", err);
+      next(err);
     }
   });
 };

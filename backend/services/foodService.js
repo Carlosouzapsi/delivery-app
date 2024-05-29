@@ -24,7 +24,7 @@ class FoodService {
     }
   }
 
-  async removeFood(id) {
+  async removeFoodById(id) {
     try {
       const deletedFood = await this.repository.RemoveFood(id);
       return FormateData(deletedFood);

@@ -32,9 +32,9 @@ class FoodRepository {
   async RemoveFood(id) {
     try {
       const food = await FoodModel.findById(id);
-      console.log(food);
       fs.unlink(`uploads/${food.image}`, () => {});
       await FoodModel.findByIdAndDelete(food._id);
+      return food;
     } catch (error) {
       throw new Error("unable to remove food");
     }

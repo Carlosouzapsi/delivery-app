@@ -83,9 +83,12 @@ describe("Food tests", () => {
       category: "Salad",
     });
 
+    const foodId = foodResult._id.toString();
+
     const response = await request(app)
-      .delete(`/food/${foodResult._id}`)
+      .post("/food/remove")
+      .send({ id: foodId })
       .expect(200);
-    console.log(response);
+    console.log(response.body);
   });
 });
