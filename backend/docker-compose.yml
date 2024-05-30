@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: delivery-app
+    ports:
+      - "27019:27017"
