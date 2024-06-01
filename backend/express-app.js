@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const food = require("./api/food");
+const user = require("./api/user");
 
 module.exports = async (app) => {
   app.use(express.json({ limit: "1mb" }));
@@ -9,4 +10,5 @@ module.exports = async (app) => {
   app.use("/images", express.static("uploads"));
 
   food(app);
+  user(app);
 };
