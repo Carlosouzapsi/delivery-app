@@ -11,7 +11,7 @@ class UserService {
     this.repository = new UserRepository();
   }
 
-  async createUser(userInputs) {
+  async registerUser(userInputs) {
     const { email, password } = userInputs;
 
     try {
@@ -27,7 +27,9 @@ class UserService {
         return FormateData({ id: existingCustomer._id, token });
       }
       return FormateData(null);
-    } catch (err) {}
+    } catch (err) {
+      throw new Error("unable to register user");
+    }
   }
 }
 

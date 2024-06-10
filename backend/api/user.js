@@ -4,7 +4,9 @@ const UserAuth = require("./middlewares/auth");
 module.exports = (app) => {
   const userService = new UserService();
 
+  // TODO
   app.post("/user/register", () => {});
 
-  app.post("user/login", () => {});
+  // TODO
+  app.post("/user/login", () => {});
 };
