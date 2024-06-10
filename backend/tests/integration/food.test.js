@@ -89,6 +89,5 @@ describe("Food tests", () => {
       .post("/food/remove")
       .send({ id: foodId })
       .expect(200);
-    console.log(response.body);
   });
 });

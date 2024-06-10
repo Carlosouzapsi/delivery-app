@@ -3,7 +3,7 @@ const UserModel = require("../models/userModel");
 class UserRepository {
   async SignUp({ name, password, email }) {
     try {
-      const user = UserModel({
+      const user = await UserModel({
         name,
         password,
         email,

@@ -2,7 +2,6 @@ const UserRepository = require("../../repositories/userRepository");
 const { DB_URL } = require("../../config");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
-const 
 
 let mongoServer;
 const userRepository = new UserRepository();
@@ -21,13 +20,19 @@ afterAll(async () => {
 });
 
 describe("users tests", () => {
-  it("Should add a new user", async () => {
-    const userResult = await userRepository.SignUp({
+  it.only("Should add a new user", async () => {
+    const userData = {
       name: "carlos",
       email: "carlos@test.com",
       password: "123456",
+    };
+    const userResult = await userRepository.SignUp({
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
     });
 
-    console.log(userResult);
+    expect(userResult).toHaveProperty("_id");
+    expect(userResult.email).toBe(userData.email);
   });
 });
