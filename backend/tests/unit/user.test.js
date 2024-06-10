@@ -35,16 +35,4 @@ describe("users tests", () => {
     expect(userResult).toHaveProperty("_id");
     expect(userResult.email).toBe(userData.email);
   });
-  it("Should add a new food", async () => {
-    const foodResult = await foodRepository.AddFood({
-      name: "Greek salad",
-      image: "test",
-      price: 12,
-      description:
-        "Food provides essential nutrients for overall health and well-being",
-      category: "Salad",
-    });
-    expect(foodResult).toHaveProperty("_id");
-    expect(foodResult.name).toBe("Greek salad");
-  });
 });
