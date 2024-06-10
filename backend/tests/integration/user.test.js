@@ -1,10 +1,19 @@
+const express = require("express");
+const request = require("supertest");
+const UserService = require("../../services/userService");
 const UserRepository = require("../../repositories/userRepository");
 const { DB_URL } = require("../../config");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
+const path = require("path");
+const expressApp = require("../../express-app");
 
+const app = express();
+/* Configurar arquivo jest para rodar testes de integração
+separados dos unitários */
 let mongoServer;
 const userRepository = new UserRepository();
+const userService = new UserService();
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -18,8 +27,8 @@ afterAll(async () => {
   await mongoose.disconnect();
   await mongoServer.stop();
 });
-
-describe("users tests", () => {
+// TODO
+describe("users integration tests", () => {
   it("Should add a new user", async () => {
     const userData = {
       name: "carlos",
@@ -35,16 +44,26 @@ describe("users tests", () => {
     expect(userResult).toHaveProperty("_id");
     expect(userResult.email).toBe(userData.email);
   });
-  it("Should add a new food", async () => {
-    const foodResult = await foodRepository.AddFood({
+  it("Should add new food", async () => {
+    const foodResult = {
       name: "Greek salad",
-      image: "test",
+      description: "Food provides essential",
       price: 12,
-      description:
-        "Food provides essential nutrients for overall health and well-being",
       category: "Salad",
-    });
-    expect(foodResult).toHaveProperty("_id");
-    expect(foodResult.name).toBe("Greek salad");
+    };
+
+    const response = await request(app)
+      .post("/food/add")
+      .field("name", foodResult.name)
+      .field("description", foodResult.description)
+      .field("price", foodResult.price)
+      .field("category", foodResult.category)
+      .attach(
+        "image",
+        path.resolve(__dirname, "../utils/images/test-image.png")
+      )
+      .expect(200);
+
+    expect(response.body.data).toHaveProperty("_id");
   });
 });
