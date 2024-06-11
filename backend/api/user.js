@@ -8,7 +8,11 @@ module.exports = (app) => {
   app.post("/user/register", async (req, res, next) => {
     const { name, email, password } = req.body;
     try {
-      const { data } = await userService.registerUser(email, password);
+      const { data } = await userService.registerUser({
+        name,
+        email,
+        password,
+      });
       return res.json({ success: true, message: "User added", data: data });
     } catch (err) {
       next(err);

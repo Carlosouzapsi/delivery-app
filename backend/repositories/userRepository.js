@@ -16,8 +16,14 @@ class UserRepository {
   }
   async Login() {}
 
-  // TODO
-  async FindUser() {}
+  async FindUserByEmail(email) {
+    try {
+      const userResult = await UserModel.findOne({ email });
+      return userResult;
+    } catch (err) {
+      throw new Error("unable to found user");
+    }
+  }
 }
 
 module.exports = UserRepository;

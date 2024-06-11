@@ -6,18 +6,20 @@ const {
   ValidatePassword,
   GeneratePassword,
 } = require("../utils/utils");
+const validator = require("validator");
 
 class UserService {
   constructor() {
     this.repository = new UserRepository();
   }
-  // TODO review
+  // Review methods parameters
   async registerUser(userInputs) {
     const { name, email, password } = userInputs;
     try {
-      // TODO need to create a find user by email specific method on repositories
-      const existingCustomer = await this.repository.FindUser({ email });
-      if (existingCustomer) {
+      // const existingUser = await this.repository.FindUserByEmail(email);
+      const existingUser = true;
+      if (existingUser) {
+        // throw new Error("User already exists");
         return res.json({ success: false, message: "User already exists" });
       }
       if (!validator.isEmail(email)) {
@@ -35,15 +37,13 @@ class UserService {
 
       const salt = await GenerateSalt();
       const hashedPassword = await GeneratePassword(password, salt);
-
       const newUser = await this.repository.SignUp({
         name: name,
         email: email,
         password: hashedPassword,
       });
-      console.log(newUser);
-      const token = await GenerateSignature(newUser._id);
 
+      const token = await GenerateSignature(newUser._id);
       return FormateData(newUser, token);
     } catch (err) {
       throw new Error("unable to register user");
