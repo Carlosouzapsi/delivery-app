@@ -4,29 +4,46 @@ const {
   GenerateSalt,
   GenerateSignature,
   ValidatePassword,
+  GeneratePassword,
 } = require("../utils/utils");
 
 class UserService {
   constructor() {
     this.repository = new UserRepository();
   }
-
+  // TODO review
   async registerUser(userInputs) {
-    const { email, password } = userInputs;
+    const { name, email, password } = userInputs;
 
     try {
       const existingCustomer = await this.repository.FindUser({ email });
       if (existingCustomer) {
-        password, existingCustomer.password, existingCustomer.salt;
+        return res.json({ success: false, message: "User already exists" });
       }
-      if (ValidatePassword) {
-        const token = await GenerateSignature({
-          email: existingCustomer.email,
-          _id: existingCustomer._id,
+      if (!validator.isEmail(email)) {
+        return res.json({
+          success: false,
+          message: "Please enter a valid email",
         });
-        return FormateData({ id: existingCustomer._id, token });
       }
-      return FormateData(null);
+      if (password.length < 8) {
+        return res.json({
+          success: false,
+          message: "Please enter a strong password",
+        });
+      }
+
+      const salt = await GenerateSalt();
+      const hashedPassword = await GeneratePassword(password, salt);
+
+      const newUser = await this.repository.SignUp({
+        name: name,
+        email: email,
+        password: hashedPassword,
+      });
+      const token = await GenerateSignature(newUser._id);
+
+      return FormateData(newUser, token);
     } catch (err) {
       throw new Error("unable to register user");
     }

@@ -18,7 +18,7 @@ module.exports.GenerateSalt = async () => {
 };
 
 module.exports.GeneratePassword = async (password, salt) => {
-  return await bcrypto.hash(password, salt);
+  return await bcrypt.hash(password, salt);
 };
 
 module.exports.ValidatePassword = async (

@@ -29,7 +29,7 @@ afterAll(async () => {
 });
 // TODO
 describe("users integration tests", () => {
-  it("Should add a new user", async () => {
+  it("Should register a new user", async () => {
     const userData = {
       name: "carlos",
       email: "carlos@test.com",

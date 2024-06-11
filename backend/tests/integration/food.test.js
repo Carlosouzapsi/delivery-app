@@ -71,7 +71,7 @@ describe.skip("Food tests", () => {
     expect(response.body.data).toBeDefined();
   });
 
-  it.skip("Should remove a food by id", async () => {
+  it("Should remove a food by id", async () => {
     const foodResult = await foodRepository.AddFood({
       name: "Greek salad",
       image: "test",
