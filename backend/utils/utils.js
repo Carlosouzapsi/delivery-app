@@ -1,5 +1,6 @@
 const multer = require("multer");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 // Image Storage Engine
 module.exports.ManageUpload = (image_file) => {
@@ -62,4 +63,11 @@ module.exports.FormateData = (data) => {
   } else {
     throw new Error("Data Not found!");
   }
+};
+
+module.exports.PublishCustomerEvent = async (payload) => {
+  // perform some operations
+  axios.post("http://localhost:8000/customer/app-events", {
+    payload,
+  });
 };

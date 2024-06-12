@@ -39,6 +39,45 @@ class FoodRepository {
       throw new Error("unable to remove food");
     }
   }
+  // FOR LOGGER AND FUTURE USERS
+  // async GetProductPayload(userId, { productId, qty }, event) {
+  //   const product = await this.repository.FindById(productId);
+
+  //   if (product) {
+  //     const payload = {
+  //       event: event,
+  //       data: { userId, product, qty },
+  //     };
+  //     return FormateData(payload);
+  //   } else {
+  //     return FormateData({ error: "No product available" });
+  //   }
+  // }
+
+  // FOR LOGGER AND FUTURE USERS
+  // async SubscribeEvents(payload) {
+  //   const { event, data } = payload;
+
+  //   const { userId, product, order, qty } = data;
+
+  //   switch (event) {
+  //     case "ADD_TO_WISHLIST":
+  //     case "REMOVE_FROM_WISHLIST":
+  //       this.AddToWishList(userId, product);
+  //       break;
+  //     case "ADD_TO_CART":
+  //       this.ManageCart(userId, product, qty, false);
+  //       break;
+  //     case "REMOVE_FROM_CART":
+  //       this.ManageCart(userId, product, qty, true);
+  //       break;
+  //     case "CREATE_ORDER":
+  //       this.ManageOrder(userId, order);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 }
 
 module.exports = FoodRepository;
