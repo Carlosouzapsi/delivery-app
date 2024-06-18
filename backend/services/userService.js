@@ -7,6 +7,8 @@ const {
   GeneratePassword,
 } = require("../utils/utils");
 const validator = require("validator");
+const { APIError } = require("../utils/app-errors");
+const { ValidationError } = require("../utils/app-errors");
 
 class UserService {
   constructor() {
@@ -17,23 +19,15 @@ class UserService {
     const { name, email, password } = userInputs;
     try {
       const existingUser = await this.repository.FindUserByEmail(email);
-      console.log(existingUser);
       if (existingUser) {
-        throw new Error("User already exists");
-        return res.json({ success: false, message: "User already exists" });
+        throw new ValidationError("user already exists");
       }
-      // if (!validator.isEmail(email)) {
-      //   return res.json({
-      //     success: false,
-      //     message: "Please enter a valid email",
-      //   });
-      // }
-      // if (password.length < 5) {
-      //   return res.json({
-      //     success: false,
-      //     message: "Please enter a strong password",
-      //   });
-      // }
+      if (!validator.isEmail(email)) {
+        throw new ValidationError("Please enter a valid email");
+      }
+      if (password.length < 5) {
+        throw new ValidationError("Please enter a strong password");
+      }
 
       const salt = await GenerateSalt();
       const hashedPassword = await GeneratePassword(password, salt);
@@ -41,13 +35,20 @@ class UserService {
         name: name,
         email: email,
         password: hashedPassword,
+        salt,
       });
 
-      const token = await GenerateSignature(newUser._id);
-      return FormateData(newUser, token);
+      const token = await GenerateSignature({
+        email: email,
+        _id: newUser._id,
+      });
+
+      return FormateData({
+        id: newUser._id,
+        token,
+      });
     } catch (err) {
-      console.error(err);
-      throw new Error("unable to register user");
+      throw err;
     }
   }
 }

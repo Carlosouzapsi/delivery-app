@@ -11,7 +11,7 @@ class UserRepository {
       const userResult = await user.save();
       return userResult;
     } catch (err) {
-      throw new Error("unable to register a new user");
+      throw new Error("unable to register user");
     }
   }
   async Login() {}

@@ -11,9 +11,14 @@ const startServer = async () => {
 
   await expressApp(app);
 
-  app.listen(port, () => {
-    console.log(`Server Started on http://localhost:${port}`);
-  });
+  app
+    .listen(port, () => {
+      console.log(`Server Started on http://localhost:${port}`);
+    })
+    .on("error", (err) => {
+      console.log(err);
+      process.exit();
+    });
 };
 
 startServer();

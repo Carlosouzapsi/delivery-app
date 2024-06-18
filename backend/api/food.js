@@ -1,6 +1,5 @@
 const FoodService = require("../services/foodService");
 const { ManageUpload } = require("../utils/utils");
-const mongoose = require("mongoose");
 
 module.exports = (app) => {
   const foodService = new FoodService();
