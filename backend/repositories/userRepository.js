@@ -1,12 +1,13 @@
 const UserModel = require("../models/userModel");
 
 class UserRepository {
-  async SignUp({ name, password, email }) {
+  async SignUp({ name, email, password, salt }) {
     try {
       const user = await UserModel({
         name,
-        password,
         email,
+        password,
+        salt,
       });
       const userResult = await user.save();
       return userResult;
@@ -20,7 +21,7 @@ class UserRepository {
       const userResult = await UserModel.findOne({ email });
       return userResult;
     } catch (err) {
-      throw new Error("unable to found user");
+      throw new Error("unable to find user");
     }
   }
 }

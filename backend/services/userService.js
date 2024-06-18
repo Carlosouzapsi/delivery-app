@@ -29,10 +29,10 @@ class UserService {
         throw new ValidationError("Please enter a strong password");
       }
 
-      const salt = await GenerateSalt();
-      const hashedPassword = await GeneratePassword(password, salt);
+      let salt = await GenerateSalt();
+      let hashedPassword = await GeneratePassword(password, salt);
       const newUser = await this.repository.SignUp({
-        name: name,
+        name,
         email: email,
         password: hashedPassword,
         salt,
@@ -54,16 +54,15 @@ class UserService {
 
   async loginUser(userInputs) {
     const { email, password } = userInputs;
-
     try {
       const existingUser = await this.repository.FindUserByEmail({ email });
-
       if (existingUser) {
         const validPassword = await ValidatePassword(
           password,
           existingUser.password,
           existingUser.salt
         );
+
         if (validPassword) {
           const token = await GenerateSignature({
             email: existingUser.email,
@@ -72,9 +71,10 @@ class UserService {
           return FormateData({ id: existingUser._id, token });
         }
       }
-      return FormateData(null);
+      throw new ValidationError("incorrect email or password");
     } catch (err) {
-      throw err;
+      console.error(err);
+      throw new APIError(err);
     }
   }
 }
