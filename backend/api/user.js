@@ -19,5 +19,12 @@ module.exports = (app) => {
   });
 
   // TODO
-  app.post("/user/login", () => {});
+  app.post("/user/login", async (req, res, next) => {
+    const { email, password } = req.body;
+
+    try {
+    } catch (err) {
+      next(err);
+    }
+  });
 };

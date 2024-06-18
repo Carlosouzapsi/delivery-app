@@ -51,6 +51,32 @@ class UserService {
       throw err;
     }
   }
+
+  async loginUser(userInputs) {
+    const { email, password } = userInputs;
+
+    try {
+      const existingUser = await this.repository.FindUserByEmail({ email });
+
+      if (existingUser) {
+        const validPassword = await ValidatePassword(
+          password,
+          existingUser.password,
+          existingUser.salt
+        );
+        if (validPassword) {
+          const token = await GenerateSignature({
+            email: existingUser.email,
+            _id: existingUser._id,
+          });
+          return FormateData({ id: existingUser._id, token });
+        }
+      }
+      return FormateData(null);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;

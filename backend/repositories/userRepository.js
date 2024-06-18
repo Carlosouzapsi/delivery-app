@@ -14,9 +14,8 @@ class UserRepository {
       throw new Error("unable to register user");
     }
   }
-  async Login() {}
 
-  async FindUserByEmail(email) {
+  async FindUserByEmail({ email }) {
     try {
       const userResult = await UserModel.findOne({ email });
       return userResult;
