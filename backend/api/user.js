@@ -4,7 +4,6 @@ const UserAuth = require("./middlewares/auth");
 module.exports = (app) => {
   const userService = new UserService();
 
-  // WIP
   app.post("/user/register", async (req, res, next) => {
     const { name, email, password } = req.body;
     try {
