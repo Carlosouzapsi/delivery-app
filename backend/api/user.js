@@ -21,8 +21,13 @@ module.exports = (app) => {
   // TODO
   app.post("/user/login", async (req, res, next) => {
     const { email, password } = req.body;
-
     try {
+      const { data } = await userService.loginUser({ email, password });
+      return res.json({
+        success: true,
+        message: "user logged successfully",
+        data,
+      });
     } catch (err) {
       next(err);
     }
