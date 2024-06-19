@@ -11,6 +11,7 @@ class CartService {
   async manageCart(userId, itemId) {
     try {
       const cartResult = await this.repository.addToCart(userId, itemId);
+      console.log("cart result: " + cartResult);
       return FormateData(cartResult);
     } catch (error) {
       console.log(error);

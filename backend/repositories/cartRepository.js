@@ -4,8 +4,6 @@ const UserModel = require("../models/userModel");
 class CartRepository {
   //Add items to user cart
   async addToCart(userId, itemId) {
-    // console.log("userId: " + userId);
-    // console.log("itemId: " + itemId);
     try {
       let userData = await userModel.findOne({
         _id: userId,
@@ -16,11 +14,12 @@ class CartRepository {
       } else {
         cartData[itemId] += 1;
       }
-      await userModel.findByIdAndUpdate(userId, {
+      const addResult = await userModel.findByIdAndUpdate(userId, {
         cartData,
       });
+      return cartData;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw new Error("unable to add to cart");
     }
   }
