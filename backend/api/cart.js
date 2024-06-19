@@ -28,5 +28,13 @@ module.exports = (app) => {
     }
   });
 
-  app.get("/cart/list", UserAuth, async (req, res, next) => {});
+  app.get("/cart/list", UserAuth, async (req, res, next) => {
+    try {
+      const { _id } = req.user;
+      const { data } = await cartService.getUserCart(_id);
+      return res.json({ success: true, message: "user cart", data: data });
+    } catch (err) {
+      throw next(err);
+    }
+  });
 };

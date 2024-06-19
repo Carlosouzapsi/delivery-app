@@ -28,6 +28,16 @@ class CartService {
       throw new APIError(err);
     }
   }
+
+  async getUserCart(userId) {
+    try {
+      const cartResult = await this.repository.getCart(userId);
+      return FormateData(cartResult);
+    } catch (err) {
+      console.log(err);
+      throw new APIError(err);
+    }
+  }
 }
 
 module.exports = CartService;

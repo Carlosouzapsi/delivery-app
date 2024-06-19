@@ -43,7 +43,15 @@ class CartRepository {
   }
 
   // Get items from cart
-  async getCart() {}
+  async getCart(userId) {
+    try {
+      let userData = await userModel.findById(userId);
+      let cartData = await userData.cartData;
+      return cartData;
+    } catch (err) {
+      throw new Error("unable to get the cartData");
+    }
+  }
 }
 
 module.exports = CartRepository;
