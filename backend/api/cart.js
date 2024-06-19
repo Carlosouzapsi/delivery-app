@@ -9,8 +9,8 @@ module.exports = (app) => {
   app.post("/cart/add", UserAuth, async (req, res, next) => {
     const { itemId } = req.body;
     console.log("ID request item " + itemId);
-    const { userId } = req.user;
-    console.log("Id request user " + userId);
+    console.log("ID request user " + req.user._id);
+    // console.log("Id request user " + user);
     try {
       const { data } = await cartService.manageCart(userId, itemId);
       return res.json({ success: true, message: "added to cart", data: data });
