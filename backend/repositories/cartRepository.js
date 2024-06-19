@@ -14,7 +14,7 @@ class CartRepository {
       } else {
         cartData[itemId] += 1;
       }
-      const addResult = await userModel.findByIdAndUpdate(userId, {
+      await userModel.findByIdAndUpdate(userId, {
         cartData,
       });
       return cartData;
