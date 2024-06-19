@@ -17,7 +17,16 @@ module.exports = (app) => {
     }
   });
 
-  app.post("/cart/remove", UserAuth, async (req, res, next) => {});
+  app.post("/cart/remove", UserAuth, async (req, res, next) => {
+    try {
+      const { itemId } = req.body;
+      const { _id } = req.user;
+      const { data } = await cartService.removeItemFromCart(_id, itemId);
+      return res.json({ success: true, message: "item removed", data });
+    } catch (err) {
+      throw next(err);
+    }
+  });
 
   app.get("/cart/list", UserAuth, async (req, res, next) => {});
 };

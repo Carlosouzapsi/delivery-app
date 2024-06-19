@@ -13,9 +13,19 @@ class CartService {
       const cartResult = await this.repository.addToCart(userId, itemId);
       console.log("cart result: " + cartResult);
       return FormateData(cartResult);
-    } catch (error) {
-      console.log(error);
-      throw new APIError(error);
+    } catch (err) {
+      console.log(err);
+      throw new APIError(err);
+    }
+  }
+
+  async removeItemFromCart(userId, itemId) {
+    try {
+      const cartResult = await this.repository.removeFromCart(userId, itemId);
+      return FormateData(cartResult);
+    } catch (err) {
+      console.log(err);
+      throw new APIError(err);
     }
   }
 }

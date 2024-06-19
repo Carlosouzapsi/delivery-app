@@ -25,7 +25,22 @@ class CartRepository {
   }
 
   // Remove items from cart
-  async removeFromCart() {}
+  async removeFromCart(userId, itemId) {
+    try {
+      let userData = await userModel.findById(userId);
+      let cartData = await userData.cartData;
+      if (cartData[itemId] > 0) {
+        cartData[itemId] -= 1;
+      }
+      await userModel.findByIdAndUpdate(userId, {
+        cartData,
+      });
+      return cartData;
+    } catch (err) {
+      console.error(err);
+      throw new Error("unable to remove from cart");
+    }
+  }
 
   // Get items from cart
   async getCart() {}
