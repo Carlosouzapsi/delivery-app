@@ -26,6 +26,7 @@ module.exports = (app) => {
       return res.json({
         success: true,
         message: "user logged successfully",
+        data: data,
       });
     } catch (err) {
       next(err);
