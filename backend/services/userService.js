@@ -73,8 +73,7 @@ class UserService {
       }
       throw new ValidationError("incorrect email or password");
     } catch (err) {
-      console.error(err);
-      throw new APIError(err);
+      throw err;
     }
   }
 }
