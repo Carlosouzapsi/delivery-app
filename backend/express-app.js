@@ -3,6 +3,7 @@ const cors = require("cors");
 const food = require("./api/food");
 const user = require("./api/user");
 const cart = require("./api/cart");
+const order = require("./api/order");
 const HandleErrors = require("./utils/error-handler");
 
 module.exports = async (app) => {
@@ -14,6 +15,7 @@ module.exports = async (app) => {
   food(app);
   user(app);
   cart(app);
+  order(app);
 
   app.use(HandleErrors);
 };

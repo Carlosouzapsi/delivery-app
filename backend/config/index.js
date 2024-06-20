@@ -9,4 +9,5 @@ if (process.env.NODE_ENV !== "prod") {
 
 module.exports = {
   DB_URL: process.env.MONGODB_URI,
+  STRIPE_KEY: process.env.STRIPE_SECRET_KEY,
 };

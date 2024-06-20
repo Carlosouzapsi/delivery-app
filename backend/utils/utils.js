@@ -1,6 +1,8 @@
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Stripe = require("stripe");
+const STRIPE_KEY = require("../config");
 
 // Image Storage Engine
 module.exports.ManageUpload = (image_file) => {
@@ -62,5 +64,15 @@ module.exports.FormateData = (data) => {
     return { data };
   } else {
     throw new Error("Data Not found!");
+  }
+};
+
+module.exports.createStripe = () => {
+  try {
+    const stripe = new Stripe(STRIPE_KEY);
+    return stripe;
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
   }
 };
