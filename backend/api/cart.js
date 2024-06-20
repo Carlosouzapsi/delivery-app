@@ -24,7 +24,7 @@ module.exports = (app) => {
       const { data } = await cartService.removeItemFromCart(_id, itemId);
       return res.json({ success: true, message: "item removed", data });
     } catch (err) {
-      throw next(err);
+      next(err);
     }
   });
 
@@ -34,7 +34,7 @@ module.exports = (app) => {
       const { data } = await cartService.getUserCart(_id);
       return res.json({ success: true, message: "user cart", data: data });
     } catch (err) {
-      throw next(err);
+      next(err);
     }
   });
 };
