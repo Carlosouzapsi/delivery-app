@@ -67,25 +67,16 @@ module.exports.FormateData = (data) => {
   }
 };
 
-module.exports.createStripe = () => {
-  try {
-    const stripe = new Stripe(STRIPE_KEY);
-    return stripe;
-  } catch (err) {
-    console.error(err);
-    throw new Error(err);
-  }
-};
-
 module.exports.createStripeLineItems = async (newOrderId, items) => {
   try {
     const line_items = items.map((item) => ({
-      price_data: {},
-      currency: "brl",
-      product_data: {
-        name: item.name,
+      price_data: {
+        currency: "brl",
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: item.price * 100 * 80,
       },
-      unit_amount: item.price * 100 * 80,
       quantity: item.quantity,
     }));
     line_items.push({
@@ -98,7 +89,9 @@ module.exports.createStripeLineItems = async (newOrderId, items) => {
       },
       quantity: 1,
     });
-    const stripe = createStripe();
+    const stripe = new Stripe(
+      "sk_test_51PTm7TP5lvVWbXsyeqjjtLb0VWho4Zw8lkL8Krgwr5nCyxsBTacN21uqzdBwfM28kSwgjphPmluzhHgReIyXTpX300PxutEibY"
+    );
     const session = await stripe.checkout.sessions.create({
       line_items: line_items,
       mode: "payment",
@@ -110,6 +103,7 @@ module.exports.createStripeLineItems = async (newOrderId, items) => {
     const sessionUrl = session.url;
     return sessionUrl;
   } catch (err) {
+    console.error(err);
     throw new Error("payment integration error");
   }
 };

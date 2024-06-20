@@ -6,7 +6,7 @@ module.exports = (app) => {
   const orderService = new OrderService();
   const userService = new UserService();
 
-  app.post("order/place", UserAuth, async (req, res, next) => {
+  app.post("/order/place", UserAuth, async (req, res, next) => {
     try {
       const { _id } = req.user;
       const { items, amount, address } = req.body;

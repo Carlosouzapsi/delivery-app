@@ -19,10 +19,10 @@ class OrderService {
         amount,
         address
       );
-      if (savedOrder) {
+      if (newOrder) {
         stripeItems = await createStripeLineItems(newOrder._id, items);
       }
-      return FormateData({ orderResult, stripeItems });
+      return FormateData({ newOrder, stripeItems });
     } catch (err) {
       console.error(err);
       throw err;
