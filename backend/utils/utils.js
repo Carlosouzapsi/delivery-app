@@ -76,3 +76,40 @@ module.exports.createStripe = () => {
     throw new Error(err);
   }
 };
+
+module.exports.createStripeLineItems = async (newOrderId, items) => {
+  try {
+    const line_items = items.map((item) => ({
+      price_data: {},
+      currency: "brl",
+      product_data: {
+        name: item.name,
+      },
+      unit_amount: item.price * 100 * 80,
+      quantity: item.quantity,
+    }));
+    line_items.push({
+      price_data: {
+        currency: "brl",
+        product_data: {
+          name: "Delivery Charges",
+        },
+        unit_amount: 2 * 100 * 80,
+      },
+      quantity: 1,
+    });
+    const stripe = createStripe();
+    const session = await stripe.checkout.sessions.create({
+      line_items: line_items,
+      mode: "payment",
+      // verify frontend url
+      success_url: `http://localhost:5173/verify?success=true&orderId=${newOrderId}`,
+      // verify frontend url
+      cancel_url: `http://localhost:5173/verify?success=false&orderId=${newOrderId}`,
+    });
+    const sessionUrl = session.url;
+    return sessionUrl;
+  } catch (err) {
+    throw new Error("payment integration error");
+  }
+};

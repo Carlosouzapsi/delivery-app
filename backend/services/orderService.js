@@ -1,21 +1,30 @@
 const OrderRepository = require("../repositories/orderRepository");
 const { APIError } = require("../utils/app-errors");
-const { ManageUpload, FormateData } = require("../utils/utils");
+const {
+  ManageUpload,
+  FormateData,
+  createStripeLineItems,
+} = require("../utils/utils");
 
 class OrderService {
   constructor() {
     this.OrderRepository = new OrderRepository();
   }
   async placeOrder(userId, items, amount, address) {
+    let stripeItems;
     try {
-      const orderResult = this.OrderRepository.saveOrder(
+      const newOrder = await this.OrderRepository.saveOrder(
         userId,
         items,
         amount,
         address
       );
-      return FormateData(orderResult);
+      if (savedOrder) {
+        stripeItems = await createStripeLineItems(newOrder._id, items);
+      }
+      return FormateData({ orderResult, stripeItems });
     } catch (err) {
+      console.error(err);
       throw err;
     }
   }
