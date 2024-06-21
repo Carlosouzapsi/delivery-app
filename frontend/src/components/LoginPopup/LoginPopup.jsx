@@ -80,7 +80,7 @@ const LoginPopup = ({ setShowLogin }) => {
   return (
     <div className="login-popup">
       <form onSubmit={onLogin} className="login-popup-container">
-        <div className="login-popup-title">
+        <div className="login-popup-title" data-cy={"login-popup-title"}>
           <h2>{currState}</h2>
           <img
             onClick={() => setShowLogin(false)}
@@ -93,6 +93,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <></>
           ) : (
             <input
+              data-cy="name"
               name="name"
               onChange={onChangeHandler}
               value={data.name}
@@ -105,6 +106,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <p className="error">{nameError}</p>
           )}
           <input
+            data-cy="email"
             name="email"
             onChange={onChangeHandler}
             value={data.email}
@@ -116,6 +118,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <p className="error">{emailError}</p>
           )}
           <input
+            data-cy="password"
             name="password"
             onChange={onChangeHandler}
             value={data.password}
@@ -127,11 +130,11 @@ const LoginPopup = ({ setShowLogin }) => {
             <p className="error">{passwordError}</p>
           )}
         </div>
-        <button type="submit">
+        <button type="submit" data-cy={"sign-in-sign-up-button"}>
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
         <div className="login-popup-condition">
-          <input type="checkbox" required />
+          <input type="checkbox" data-cy={"privacy-policy-checkbox"} required />
           <p>By continuing, I agree to the terms of use & privacy policy.</p>
         </div>
         {currState === "Login" ? (
