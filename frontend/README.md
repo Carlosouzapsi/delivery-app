@@ -10,3 +10,9 @@ Currently, two official plugins are available:
 - eslint cypress: https://github.com/cypress-io/eslint-plugin-cypress
 
 - https://docs.stripe.com/testing?testing-method=card-numbers#visa (for payment test)
+
+- Cypress automation Scenarios
+
+Admin Panel
+
+Tomato System
