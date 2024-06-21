@@ -13,6 +13,13 @@ Currently, two official plugins are available:
 
 - Cypress automation Scenarios
 
-Admin Panel
+Tomato System - TODO LIST NAMES
 
-Tomato System
+Admin Panel - TODO
+
+- T0D0: Future Features:
+
+- Login invalid credentials error messages on client
+- User avatar Upload and logged user greetins message
+- Edit user profile
+- Recover password
