@@ -60,6 +60,27 @@ class OrderService {
       throw new APIError("unable user orders");
     }
   }
+
+  async listOrdersAdminPanel() {
+    try {
+      const ordersResult = await this.OrderRepository.ListOrdersAdmin();
+      return FormateData(ordersResult);
+    } catch (err) {
+      throw new APIError("unable to list orders to admin");
+    }
+  }
+
+  async updateOrderStatus(orderId, updatedStatus) {
+    try {
+      const updateResult = await this.OrderRepository.updateOrderStatus(
+        orderId,
+        updatedStatus
+      );
+      return FormateData(updateResult);
+    } catch (err) {
+      throw new APIError("unable to update the order status");
+    }
+  }
 }
 
 module.exports = OrderService;

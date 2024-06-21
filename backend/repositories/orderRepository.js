@@ -53,6 +53,26 @@ class OrderRepository {
       throw new Error("unable to access user orders");
     }
   }
+
+  async ListOrdersAdmin() {
+    try {
+      const orders = await OrderModel.find({});
+      return orders;
+    } catch (err) {
+      throw new Error("unable to list orders to admin");
+    }
+  }
+
+  async updateOrderStatus(orderId, updatedStatus) {
+    try {
+      const updatedOrder = await OrderModel.findByIdAndUpdate(orderId, {
+        status: updatedStatus,
+      });
+      return updatedOrder;
+    } catch (err) {
+      throw new Error("unable to update the order");
+    }
+  }
 }
 
 module.exports = OrderRepository;

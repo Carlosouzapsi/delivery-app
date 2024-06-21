@@ -47,4 +47,28 @@ module.exports = (app) => {
       next(err);
     }
   });
+
+  app.get("/order/list", async (req, res, next) => {
+    try {
+      const { data } = await orderService.listOrdersAdminPanel();
+      return res.json({ success: true, message: "listing orders", data: data });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/order/status", async (req, res, next) => {
+    try {
+      const { orderId, status } = req.body;
+      const { data } = orderService.updateOrderStatus(orderId, status);
+      
+      res.json({
+        success: true,
+        message: "Order updated sucessfully",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
 };
