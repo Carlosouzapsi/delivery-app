@@ -3,6 +3,7 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import validator from "validator";
 
 const LoginPopup = ({ setShowLogin }) => {
   const { url, setToken } = useContext(StoreContext);
@@ -14,10 +15,47 @@ const LoginPopup = ({ setShowLogin }) => {
     password: "",
   });
 
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [nameError, setNameError] = useState("");
+
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setData((data) => ({ ...data, [name]: value }));
+    if (name === "email") {
+      validateEmail(value);
+    }
+    if (name === "password") {
+      validatePassword(value);
+    }
+    if (name === "name") {
+      validateName(value);
+    }
+  };
+
+  const validateEmail = (email) => {
+    if (!validator.isEmail(email)) {
+      setEmailError("Please type a valid email address");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const validatePassword = (password) => {
+    if (password.length < 5) {
+      setPasswordError("Password need at least 6 characters");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const validateName = (name) => {
+    if (name.length === 0) {
+      setNameError("name field is required");
+    } else {
+      setNameError("");
+    }
   };
 
   const onLogin = async (event) => {
@@ -63,6 +101,7 @@ const LoginPopup = ({ setShowLogin }) => {
               required
             />
           )}
+          {nameError && <p className="error">{nameError}</p>}
           <input
             name="email"
             onChange={onChangeHandler}
@@ -71,6 +110,7 @@ const LoginPopup = ({ setShowLogin }) => {
             placeholder="Your email"
             required
           />
+          {emailError && <p className="error">{emailError}</p>}
           <input
             name="password"
             onChange={onChangeHandler}
@@ -79,6 +119,7 @@ const LoginPopup = ({ setShowLogin }) => {
             placeholder="Password"
             required
           />
+          {passwordError && <p className="error">{passwordError}</p>}
         </div>
         <button type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}

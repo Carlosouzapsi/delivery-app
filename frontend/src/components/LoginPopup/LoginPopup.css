@@ -72,3 +72,9 @@
   font-weight: 500;
   cursor: pointer;
 }
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 1px;
+}
