@@ -101,7 +101,9 @@ const LoginPopup = ({ setShowLogin }) => {
               required
             />
           )}
-          {nameError && <p className="error">{nameError}</p>}
+          {nameError && currState === "Sign Up" && (
+            <p className="error">{nameError}</p>
+          )}
           <input
             name="email"
             onChange={onChangeHandler}
@@ -110,7 +112,9 @@ const LoginPopup = ({ setShowLogin }) => {
             placeholder="Your email"
             required
           />
-          {emailError && <p className="error">{emailError}</p>}
+          {emailError && currState === "Sign Up" && (
+            <p className="error">{emailError}</p>
+          )}
           <input
             name="password"
             onChange={onChangeHandler}
@@ -119,7 +123,9 @@ const LoginPopup = ({ setShowLogin }) => {
             placeholder="Password"
             required
           />
-          {passwordError && <p className="error">{passwordError}</p>}
+          {passwordError && currState === "Sign Up" && (
+            <p className="error">{passwordError}</p>
+          )}
         </div>
         <button type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}
