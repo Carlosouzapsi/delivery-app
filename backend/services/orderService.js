@@ -39,6 +39,27 @@ class OrderService {
       throw err;
     }
   }
+
+  async verifyUserOrders(orderId, success) {
+    try {
+      const verifyUserOrderResult = await this.OrderRepository.verifyOrder(
+        orderId,
+        success
+      );
+      return FormateData(verifyUserOrderResult);
+    } catch (err) {
+      throw new APIError("unable to verify user order");
+    }
+  }
+
+  async userOrders(userId) {
+    try {
+      const userOrdersResult = await this.OrderRepository.Orders(userId);
+      return FormateData(userOrdersResult);
+    } catch (err) {
+      throw new APIError("unable user orders");
+    }
+  }
 }
 
 module.exports = OrderService;

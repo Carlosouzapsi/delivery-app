@@ -28,6 +28,31 @@ class OrderRepository {
       throw new Error();
     }
   }
+
+  async verifyOrder(orderId, success) {
+    let updatedPayment;
+    try {
+      if (success === "true") {
+        updatedPayment = await OrderModel.findByIdAndUpdate(orderId, {
+          payment: true,
+        });
+      } else {
+        updatedPayment = await OrderModel.findByIdAndDelete(orderId);
+      }
+      return updatedPayment;
+    } catch (err) {
+      throw new Error("unable to verify order");
+    }
+  }
+
+  async Orders(userId) {
+    try {
+      const userOrders = await OrderModel.find({ userId: userId });
+      return userOrders;
+    } catch (err) {
+      throw new Error("unable to access user orders");
+    }
+  }
 }
 
 module.exports = OrderRepository;

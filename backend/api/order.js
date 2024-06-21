@@ -27,4 +27,24 @@ module.exports = (app) => {
       next(err);
     }
   });
+
+  app.post("/order/verify", async (req, res, next) => {
+    const { orderId, success } = req.body;
+    try {
+      const { data } = await orderService.verifyUserOrders(orderId, success);
+      return res.json({ success: true, data });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get("/order/userorders", UserAuth, async (req, res, next) => {
+    const { _id } = req.user;
+    try {
+      const orders = await orderService.userOrders(_id);
+      res.json({ success: true, data: orders });
+    } catch (err) {
+      next(err);
+    }
+  });
 };
