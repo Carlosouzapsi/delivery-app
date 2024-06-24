@@ -27,3 +27,5 @@
 Cypress.Commands.add("getBySel", (selector, ...args) => {
   return cy.get(`[data-cy=${selector}]`, ...args);
 });
+
+Cypress.Commands.add("login", (email, password) => {});

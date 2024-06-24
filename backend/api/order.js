@@ -61,7 +61,7 @@ module.exports = (app) => {
     try {
       const { orderId, status } = req.body;
       const { data } = orderService.updateOrderStatus(orderId, status);
-      
+
       res.json({
         success: true,
         message: "Order updated sucessfully",

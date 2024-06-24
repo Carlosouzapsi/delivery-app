@@ -18,7 +18,8 @@ class UserService {
   async registerUser(userInputs) {
     const { name, email, password } = userInputs;
     try {
-      const existingUser = await this.repository.FindUserByEmail(email);
+      const existingUser = await this.repository.FindUserByEmail({ email });
+
       if (existingUser) {
         throw new ValidationError("user already exists");
       }

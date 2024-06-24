@@ -13,25 +13,44 @@ const LoginPopup = ({ setShowLogin }) => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setData((data) => ({ ...data, [name]: value }));
-    if (name === "email") {
-      validateEmail(value);
-    }
-    if (name === "password") {
-      validatePassword(value);
-    }
-    if (name === "name") {
-      validateName(value);
-    }
+    setData((data) => {
+      const newData = { ...data, [name]: value };
+      if (name === "email") {
+        validateEmail(value);
+      }
+      if (name === "password") {
+        validatePassword(value);
+        if (currState === "Sign Up") {
+          validateConfirmPassword(newData.confirmPassword, value);
+        }
+      }
+      if (name === "name") {
+        validateName(value);
+      }
+
+      if (name === "email" && currState === "Login") {
+        validateEmailOnLogin(value);
+      }
+
+      if (name === "password" && currState === "Login") {
+        validatePasswordOnLogin(value);
+      }
+      if (name === "confirmPassword" && currState === "Sign Up") {
+        validateConfirmPassword(value, newData.password);
+      }
+      return newData;
+    });
   };
 
   const validateEmail = (email) => {
@@ -42,17 +61,41 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
+  const validateEmailOnLogin = (email) => {
+    if (!validator.isEmail(email)) {
+      setEmailError("Email field is required");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const validatePasswordOnLogin = (password) => {
+    if (password.length === 0) {
+      setPasswordError("Password field is required");
+    } else {
+      setPasswordError("");
+    }
+  };
+
   const validatePassword = (password) => {
-    if (password.length < 5) {
+    if (password !== 0 && password.length < 5) {
       setPasswordError("Password need at least 6 characters");
     } else {
       setPasswordError("");
     }
   };
 
+  const validateConfirmPassword = (confirmPassword, password) => {
+    if (confirmPassword !== password) {
+      setConfirmPasswordError("Password does not match");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
   const validateName = (name) => {
     if (name.length === 0) {
-      setNameError("name field is required");
+      setNameError("Name field is required");
     } else {
       setNameError("");
     }
@@ -66,7 +109,6 @@ const LoginPopup = ({ setShowLogin }) => {
     } else {
       newUrl += "/user/register";
     }
-
     const response = await axios.post(newUrl, data);
     if (response.data.success) {
       setToken(response.data.data.token);
@@ -93,7 +135,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <></>
           ) : (
             <input
-              data-cy="name"
+              data-cy={"name-input"}
               name="name"
               onChange={onChangeHandler}
               value={data.name}
@@ -103,10 +145,12 @@ const LoginPopup = ({ setShowLogin }) => {
             />
           )}
           {nameError && currState === "Sign Up" && (
-            <p className="error">{nameError}</p>
+            <p data-cy={"required-name-error-msg"} className="error">
+              {nameError}
+            </p>
           )}
           <input
-            data-cy="email"
+            data-cy={"email-input"}
             name="email"
             onChange={onChangeHandler}
             value={data.email}
@@ -117,6 +161,10 @@ const LoginPopup = ({ setShowLogin }) => {
           {emailError && currState === "Sign Up" && (
             <p className="error">{emailError}</p>
           )}
+          {emailError && currState === "Login" && (
+            <p className="error">{emailError}</p>
+          )}
+
           <input
             data-cy="password"
             name="password"
@@ -128,6 +176,25 @@ const LoginPopup = ({ setShowLogin }) => {
           />
           {passwordError && currState === "Sign Up" && (
             <p className="error">{passwordError}</p>
+          )}
+          {passwordError && currState === "Login" && (
+            <p className="error">{passwordError}</p>
+          )}
+          {currState === "Login" ? (
+            <></>
+          ) : (
+            <input
+              data-cy="confirm-password"
+              name="confirmPassword"
+              onChange={onChangeHandler}
+              value={data.confirmPassword}
+              type="password"
+              placeholder="Confirm Password"
+              required
+            />
+          )}
+          {confirmPasswordError && currState === "Sign Up" && (
+            <p className="error">{confirmPasswordError}</p>
           )}
         </div>
         <button type="submit" data-cy={"sign-in-sign-up-button"}>

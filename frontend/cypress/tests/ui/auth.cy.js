@@ -9,15 +9,21 @@ describe("User Signup and Login", function () {
         .should("be.visible")
         .and("contain", "Sign Up");
     });
-    it.only("Should create a new user account with valid information", function () {
+    it("Should create a new user account with valid information", function () {
       cy.getBySel("name").type(fakeUser.name);
       cy.getBySel("email").type(fakeUser.email);
       cy.getBySel("password").type(fakeUser.validPassword);
-
       cy.getBySel("privacy-policy-checkbox").click();
       cy.getBySel("sign-in-sign-up-button").click();
     });
-    it("Should not create a new user account with blank name", function () {});
+    it("Should not create a new user account with blank name", function () {
+      cy.getBySel("name-input").type("");
+      cy.getBySel("email-input").type(fakeUser.email);
+      cy.getBySel("password-input").type(fakeUser.validPassword);
+
+      const nameErrorMsg = "Name field is required";
+      cy.getBySel("required-name-error-msg").should("contain", nameErrorMsg);
+    });
     it("Should not create a new user account with blank email", function () {});
     it("Should not create a new user account with invalid email", function () {});
     it("Should not create a new user account with blank password", function () {});
