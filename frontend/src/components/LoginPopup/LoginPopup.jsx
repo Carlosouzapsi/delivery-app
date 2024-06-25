@@ -4,6 +4,7 @@ import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 import validator from "validator";
+import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowLogin }) => {
   const { url, setToken } = useContext(StoreContext);
@@ -109,13 +110,16 @@ const LoginPopup = ({ setShowLogin }) => {
     } else {
       newUrl += "/user/register";
     }
-    const response = await axios.post(newUrl, data);
-    if (response.data.success) {
-      setToken(response.data.data.token);
-      localStorage.setItem("token", response.data.data.token);
-      setShowLogin(false);
-    } else {
-      alert(response.data.message);
+    try {
+      const response = await axios.post(newUrl, data);
+      if (response.data.success) {
+        setToken(response.data.data.token);
+        localStorage.setItem("token", response.data.data.token);
+        setShowLogin(false);
+        toast.success(response.data.success);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
