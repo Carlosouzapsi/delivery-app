@@ -15,7 +15,7 @@ class FoodRepository {
       const foodResult = await food.save();
       return foodResult;
     } catch (err) {
-      throw new Error("Unable to create a new food");
+      throw new Error(err);
     }
   }
   // all food list
@@ -24,7 +24,7 @@ class FoodRepository {
       const foods = await FoodModel.find({});
       return foods;
     } catch (err) {
-      throw new Error("unable to list foods");
+      throw new Error(err);
     }
   }
 
@@ -35,49 +35,10 @@ class FoodRepository {
       fs.unlink(`uploads/${food.image}`, () => {});
       await FoodModel.findByIdAndDelete(food._id);
       return food;
-    } catch (error) {
-      throw new Error("unable to remove food");
+    } catch (err) {
+      throw new Error(err);
     }
   }
-  // FOR LOGGER AND FUTURE USERS
-  // async GetProductPayload(userId, { productId, qty }, event) {
-  //   const product = await this.repository.FindById(productId);
-
-  //   if (product) {
-  //     const payload = {
-  //       event: event,
-  //       data: { userId, product, qty },
-  //     };
-  //     return FormateData(payload);
-  //   } else {
-  //     return FormateData({ error: "No product available" });
-  //   }
-  // }
-
-  // FOR LOGGER AND FUTURE USERS
-  // async SubscribeEvents(payload) {
-  //   const { event, data } = payload;
-
-  //   const { userId, product, order, qty } = data;
-
-  //   switch (event) {
-  //     case "ADD_TO_WISHLIST":
-  //     case "REMOVE_FROM_WISHLIST":
-  //       this.AddToWishList(userId, product);
-  //       break;
-  //     case "ADD_TO_CART":
-  //       this.ManageCart(userId, product, qty, false);
-  //       break;
-  //     case "REMOVE_FROM_CART":
-  //       this.ManageCart(userId, product, qty, true);
-  //       break;
-  //     case "CREATE_ORDER":
-  //       this.ManageOrder(userId, order);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
 }
 
 module.exports = FoodRepository;

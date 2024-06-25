@@ -1,4 +1,3 @@
-const UserRepository = require("../repositories/userRepository");
 const CartRepository = require("../repositories/cartRepository");
 const { FormateData } = require("../utils/utils");
 const { APIError } = require("../utils/app-errors");
@@ -14,7 +13,6 @@ class CartService {
       console.log("cart result: " + cartResult);
       return FormateData(cartResult);
     } catch (err) {
-      console.log(err);
       throw new APIError(err);
     }
   }
@@ -24,7 +22,6 @@ class CartService {
       const cartResult = await this.repository.removeFromCart(userId, itemId);
       return FormateData(cartResult);
     } catch (err) {
-      console.log(err);
       throw new APIError(err);
     }
   }

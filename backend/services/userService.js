@@ -74,7 +74,7 @@ class UserService {
       }
       throw new ValidationError("incorrect email or password");
     } catch (err) {
-      throw err;
+      throw new APIError("unable to add user");
     }
   }
 }

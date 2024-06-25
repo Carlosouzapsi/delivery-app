@@ -1,5 +1,6 @@
 const FoodRepository = require("../repositories/foodRepository");
 const { ManageUpload, FormateData } = require("../utils/utils");
+const { APIError } = require("../utils/app-errors");
 
 class FoodService {
   constructor() {
@@ -11,7 +12,7 @@ class FoodService {
       const foodResult = await this.repository.AddFood(foodInputs);
       return FormateData(foodResult);
     } catch (err) {
-      throw new Error("unable to add food");
+      throw new APIError(err);
     }
   }
 

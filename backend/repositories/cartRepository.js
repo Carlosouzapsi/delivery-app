@@ -19,8 +19,7 @@ class CartRepository {
       });
       return cartData;
     } catch (err) {
-      console.error(err);
-      throw new Error("unable to add to cart");
+      throw new Error(err);
     }
   }
 
@@ -37,8 +36,7 @@ class CartRepository {
       });
       return cartData;
     } catch (err) {
-      console.error(err);
-      throw new Error("unable to remove from cart");
+      throw new Error(err);
     }
   }
 

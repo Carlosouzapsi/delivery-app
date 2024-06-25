@@ -25,7 +25,7 @@ class OrderRepository {
       });
       return updatedUser;
     } catch (err) {
-      throw new Error();
+      throw new Error(err);
     }
   }
 
@@ -41,7 +41,7 @@ class OrderRepository {
       }
       return updatedPayment;
     } catch (err) {
-      throw new Error("unable to verify order");
+      throw new Error(err);
     }
   }
 
@@ -59,7 +59,7 @@ class OrderRepository {
       const orders = await OrderModel.find({});
       return orders;
     } catch (err) {
-      throw new Error("unable to list orders to admin");
+      throw new Error(err);
     }
   }
 
@@ -70,7 +70,7 @@ class OrderRepository {
       });
       return updatedOrder;
     } catch (err) {
-      throw new Error("unable to update the order");
+      throw new Error(err);
     }
   }
 }
