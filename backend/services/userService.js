@@ -16,18 +16,24 @@ class UserService {
   }
   // Review methods parameters
   async registerUser(userInputs) {
-    const { name, email, password } = userInputs;
+    const { name, email, password, confirmPassword } = userInputs;
     try {
       const existingUser = await this.repository.FindUserByEmail({ email });
 
-      if (existingUser) {
-        throw new ValidationError("user already exists");
+      if (password.length < 5) {
+        throw new ValidationError("Please enter a strong password");
       }
+
+      if (password !== confirmPassword) {
+        throw new ValidationError("Password does not match");
+      }
+
       if (!validator.isEmail(email)) {
         throw new ValidationError("Please enter a valid email");
       }
-      if (password.length < 5) {
-        throw new ValidationError("Please enter a strong password");
+
+      if (existingUser) {
+        throw new ValidationError("user already exists");
       }
 
       let salt = await GenerateSalt();
@@ -49,6 +55,7 @@ class UserService {
         token,
       });
     } catch (err) {
+      console.error(err);
       throw err;
     }
   }

@@ -4,12 +4,13 @@ module.exports = (app) => {
   const userService = new UserService();
 
   app.post("/user/register", async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
     try {
       const { data } = await userService.registerUser({
         name,
         email,
         password,
+        confirmPassword,
       });
       return res.json({ success: true, message: "User added", data: data });
     } catch (err) {

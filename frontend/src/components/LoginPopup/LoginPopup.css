@@ -56,6 +56,12 @@
   cursor: pointer;
 }
 
+.login-popup-container button:disabled {
+  background-color: #cccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
 .login-popup-condition {
   display: flex;
   align-items: start;

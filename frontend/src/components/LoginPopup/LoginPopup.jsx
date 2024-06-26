@@ -123,6 +123,17 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
+  const isSignUpDisabled =
+    currState === "Sign Up" &&
+    (!data.name ||
+      !data.email ||
+      !data.password ||
+      !data.confirmPassword ||
+      emailError ||
+      passwordError ||
+      confirmPasswordError ||
+      nameError);
+
   return (
     <div className="login-popup">
       <form onSubmit={onLogin} className="login-popup-container">
@@ -201,7 +212,10 @@ const LoginPopup = ({ setShowLogin }) => {
             <p className="error">{confirmPasswordError}</p>
           )}
         </div>
-        <button type="submit" data-cy={"sign-in-sign-up-button"}>
+        <button
+          type="submit"
+          data-cy={"sign-in-sign-up-button"}
+          disabled={isSignUpDisabled}>
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
         <div className="login-popup-condition">
