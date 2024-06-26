@@ -7,14 +7,12 @@ const {
   GeneratePassword,
 } = require("../utils/utils");
 const validator = require("validator");
-const { APIError } = require("../utils/app-errors");
-const { ValidationError } = require("../utils/app-errors");
+const { APIError, ValidationError } = require("../utils/app-errors");
 
 class UserService {
   constructor() {
     this.repository = new UserRepository();
   }
-  // Review methods parameters
   async registerUser(userInputs) {
     const { name, email, password, confirmPassword } = userInputs;
     try {
@@ -55,7 +53,6 @@ class UserService {
         token,
       });
     } catch (err) {
-      console.error(err);
       throw err;
     }
   }
@@ -79,9 +76,9 @@ class UserService {
           return FormateData({ id: existingUser._id, token });
         }
       }
-      throw new ValidationError("incorrect email or password");
+      throw new ValidationError("invalid email or password");
     } catch (err) {
-      throw new APIError("unable to add user");
+      throw err;
     }
   }
 }
