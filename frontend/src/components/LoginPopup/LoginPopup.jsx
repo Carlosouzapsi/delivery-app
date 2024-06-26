@@ -181,7 +181,7 @@ const LoginPopup = ({ setShowLogin }) => {
           )}
 
           <input
-            data-cy="password"
+            data-cy="password-input"
             name="password"
             onChange={onChangeHandler}
             value={data.password}
@@ -199,7 +199,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <></>
           ) : (
             <input
-              data-cy="confirm-password"
+              data-cy="confirm-password-input"
               name="confirmPassword"
               onChange={onChangeHandler}
               value={data.confirmPassword}
