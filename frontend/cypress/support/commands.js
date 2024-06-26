@@ -28,4 +28,20 @@ Cypress.Commands.add("getBySel", (selector, ...args) => {
   return cy.get(`[data-cy=${selector}]`, ...args);
 });
 
-Cypress.Commands.add("login", (email, password) => {});
+Cypress.Commands.add("uiLogin", (email, password) => {
+  const log = Cypress.log({
+    name: "login",
+    displayName: "LOGIN",
+    message: [`Authenticating`, email],
+    autoEnd: false,
+  });
+  cy.getBySel("email-input").type(email);
+  cy.getBySel("password-input").type(password);
+  cy.getBySel("privacy-policy-checkbox").click();
+  cy.getBySel("sign-in-sign-up-button").click();
+});
+
+// Logout command
+Cypress.Commands.add("logout", () => {
+  cy.window().its("localStorage").invoke("removeItem", "session");
+});

@@ -174,10 +174,14 @@ const LoginPopup = ({ setShowLogin }) => {
             required
           />
           {emailError && currState === "Sign Up" && (
-            <p className="error">{emailError}</p>
+            <p data-cy={"valid-email-error-msg"} className="error">
+              {emailError}
+            </p>
           )}
           {emailError && currState === "Login" && (
-            <p className="error">{emailError}</p>
+            <p data-cy={"required-email-error-msg"} className="error">
+              {emailError}
+            </p>
           )}
 
           <input
@@ -190,10 +194,14 @@ const LoginPopup = ({ setShowLogin }) => {
             required
           />
           {passwordError && currState === "Sign Up" && (
-            <p className="error">{passwordError}</p>
+            <p data-cy={"invalid-password-error-msg"} className="error">
+              {passwordError}
+            </p>
           )}
           {passwordError && currState === "Login" && (
-            <p className="error">{passwordError}</p>
+            <p data-cy={"required-password-error-msg"} className="error">
+              {passwordError}
+            </p>
           )}
           {currState === "Login" ? (
             <></>
@@ -209,7 +217,9 @@ const LoginPopup = ({ setShowLogin }) => {
             />
           )}
           {confirmPasswordError && currState === "Sign Up" && (
-            <p className="error">{confirmPasswordError}</p>
+            <p data-cy={"confirm-password-error-msg"} className="error">
+              {confirmPasswordError}
+            </p>
           )}
         </div>
         <button
