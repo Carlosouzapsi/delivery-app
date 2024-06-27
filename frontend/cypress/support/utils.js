@@ -5,3 +5,9 @@ export const fakeUser = {
   email: faker.internet.email(),
   validPassword: faker.string.alphanumeric(6),
 };
+
+export const fakeUserLogin = {
+  name: faker.person.fullName(),
+  email: faker.internet.email(),
+  validPassword: faker.string.alphanumeric(6),
+};

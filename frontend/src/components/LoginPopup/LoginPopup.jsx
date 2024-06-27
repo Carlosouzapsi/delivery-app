@@ -240,7 +240,12 @@ const LoginPopup = ({ setShowLogin }) => {
         ) : (
           <p>
             Already have an account?
-            <span onClick={() => setCurrState("Login")}> Login here</span>
+            <span
+              data-cy={"login-popup-link"}
+              onClick={() => setCurrState("Login")}>
+              {" "}
+              Login here
+            </span>
           </p>
         )}
       </form>

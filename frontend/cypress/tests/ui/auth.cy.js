@@ -1,4 +1,4 @@
-import { fakeUser } from "../../support/utils";
+import { fakeUser, fakeUserLogin } from "../../support/utils";
 
 describe("User Signup and Login", function () {
   context("Signup", function () {
@@ -71,9 +71,54 @@ describe("User Signup and Login", function () {
         passwordErrorMsg
       );
     });
-    it.skip("Should not create a new user account with invalid password", function () {});
+    it("Should not create a new user account with invalid password", function () {
+      cy.getBySel("name-input").type(fakeUser.name);
+      cy.getBySel("email-input").type(fakeUser.email);
+      cy.getBySel("password-input").type("invalidPass");
+      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
+
+      cy.getBySel("privacy-policy-checkbox").click();
+
+      cy.getBySel("sign-in-sign-up-button").should("be.disabled");
+      const confirmPasswordErrorMsg = "Password does not match";
+      cy.getBySel("confirm-password-error-msg").should(
+        "contain",
+        confirmPasswordErrorMsg
+      );
+    });
   });
   context("Signin", function () {
-    it.skip("Should do login sucessfully", function () {});
+    const userCredentials = {
+      name: fakeUserLogin.name,
+      email: fakeUserLogin.email,
+      password: fakeUserLogin.validPassword,
+      confirmPassword: fakeUserLogin.validPassword,
+    };
+    before(function () {
+      cy.apiSignUp(
+        userCredentials.name,
+        userCredentials.email,
+        userCredentials.password,
+        userCredentials.confirmPassword
+      );
+      cy.logout();
+      cy.visit("/");
+      cy.getBySel("signin-button").should("exist").click();
+      cy.getBySel("login-popup-title")
+        .should("be.visible")
+        .and("contain", "Sign Up");
+      cy.getBySel("login-popup-link").should("exist").click();
+    });
+    afterEach(function () {
+      cy.logout();
+    });
+    it("Should do login sucessfully", function () {
+      cy.getBySel("email-input").type(fakeUser.email);
+      cy.getBySel("password-input").type(fakeUser.validPassword);
+      cy.getBySel("privacy-policy-checkbox").click();
+      cy.getBySel("sign-in-sign-up-button").click();
+
+      cy.getBySel("profile-icon-logged-user").should("be.visible");
+    });
   });
 });
