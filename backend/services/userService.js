@@ -78,7 +78,7 @@ class UserService {
       }
       throw new ValidationError("invalid email or password");
     } catch (err) {
-      throw err;
+      throw new APIError("internal server error", err);
     }
   }
 }

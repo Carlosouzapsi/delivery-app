@@ -113,6 +113,22 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
