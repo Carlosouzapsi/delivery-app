@@ -1,0 +1,121 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Delivery app Documentation",
+    "description": "This is a Delivery API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "carlosouzapsi@gmail.com.br"
+    }
+  },
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User Register",
+        "description": "Register new user",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "confirmPassword": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john.doe@email.com",
+                  "password": "223344",
+                  "confirmPassword": "223344"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User added"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "12345"
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxvczQzNDMuc291emFAZW1haWwuY29tIiwiX2lkIjoiNjY3ZGI1YjNmNjM3ODliMGMxZTZhODhiIiwiaWF0IjoxNzE5NTE0NTQ3LCJleHAiOjE3MjIxMDY1NDd9.5KUG7WWIqUlGljsegiR9Htixxlir5ML_3NZY9kHyNCg"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Please enter a strong password"
+                    }
+                  }
+                },
+                "examples": {
+                  "weakPassword": {
+                    "summary": "Weak Password",
+                    "value": {
+                      "message": "Please enter a strong password"
+                    }
+                  },
+                  "passwordMismatch": {
+                    "summary": "Password Mismatch",
+                    "value": {
+                      "message": "Password does not match"
+                    }
+                  },
+                  "userAlreadyExists": {
+                    "summary": "User Already Exists",
+                    "value": {
+                      "message": "user already exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
