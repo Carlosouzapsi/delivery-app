@@ -61,6 +61,7 @@ class UserService {
     const { email, password } = userInputs;
     try {
       const existingUser = await this.repository.FindUserByEmail({ email });
+      console.log(existingUser);
       if (existingUser) {
         const validPassword = await ValidatePassword(
           password,
@@ -78,7 +79,7 @@ class UserService {
       }
       throw new ValidationError("invalid email or password");
     } catch (err) {
-      throw new APIError("internal server error", err);
+      throw err;
     }
   }
 }

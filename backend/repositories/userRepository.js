@@ -12,16 +12,17 @@ class UserRepository {
       const userResult = await user.save();
       return userResult;
     } catch (err) {
-      throw new Error("unable to register user");
+      throw new Error(err);
     }
   }
 
   async FindUserByEmail({ email }) {
+    console.log({ email });
     try {
       const userResult = await UserModel.findOne({ email });
       return userResult;
     } catch (err) {
-      throw new Error("unable to find user");
+      throw new Error(err);
     }
   }
 }

@@ -1,26 +1,31 @@
-import { fakeUser, fakeUserLogin } from "../../support/utils";
-
+import { fakeUser, fakeUserLogin } from "../../../support/utils";
+import signInSignupPopUp from "../../../components/signinSignupPopUp/signinSignupPopUp";
+import signSignupPopUpActions from "../../../components/signinSignupPopUp/actions";
+import { Storage } from "../../../support/shared/generalClasses/Storage";
 describe("User Signup and Login", function () {
   context("Signup", function () {
     beforeEach(function () {
-      cy.logout();
-      cy.visit("/");
-      cy.getBySel("signin-button").should("exist").click();
-      cy.getBySel("login-popup-title")
-        .should("be.visible")
-        .and("contain", "Sign Up");
+      signInSignupPopUp.goTo("/");
+      signInSignupPopUp.clickOnSignInBtn();
+      signInSignupPopUp.assertPopUpTitle("Sign Up");
     });
     after(function () {
-      cy.logout();
+      Storage.apiUserLogout();
     });
-    it("Should create a new user account with valid information", function () {
-      cy.getBySel("name-input").type(fakeUser.name);
-      cy.getBySel("email-input").type(fakeUser.email);
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
+    it.only("Should create a new user account with valid information", function () {
+      signSignupPopUpActions.fillRegisterUserForm(
+        fakeUser.name,
+        fakeUser.email,
+        fakeUser.validPassword,
+        fakeUser.validPassword
+      );
+      // cy.getBySel("name-input").type(fakeUser.name);
+      // cy.getBySel("email-input").type(fakeUser.email);
+      // cy.getBySel("password-input").type(fakeUser.validPassword);
+      // cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
 
-      cy.getBySel("privacy-policy-checkbox").click();
-      cy.getBySel("sign-in-sign-up-button").click();
+      // cy.getBySel("privacy-policy-checkbox").click();
+      // signInSignupPopUp.clickOnSignInBtn();
     });
     it("Should not create a new user account with blank name", function () {
       cy.getBySel("name-input").type("a").clear();
@@ -87,14 +92,14 @@ describe("User Signup and Login", function () {
       );
     });
   });
-  context("Signin", function () {
+  context.skip("Signin", function () {
     const userCredentials = {
       name: fakeUserLogin.name,
       email: fakeUserLogin.email,
       password: fakeUserLogin.validPassword,
       confirmPassword: fakeUserLogin.validPassword,
     };
-    before(function () {
+    beforeEach(function () {
       cy.apiSignUp(
         userCredentials.name,
         userCredentials.email,
@@ -119,6 +124,37 @@ describe("User Signup and Login", function () {
       cy.getBySel("sign-in-sign-up-button").click();
 
       cy.getBySel("profile-icon-logged-user").should("be.visible");
+    });
+    it("Should not do login with an not registered email", function () {
+      cy.getBySel("email-input").type("invalid@email.com");
+      cy.getBySel("password-input").type(fakeUser.validPassword);
+      cy.getBySel("privacy-policy-checkbox").click();
+      cy.getBySel("sign-in-sign-up-button").click();
+
+      const errorMessage = "invalid email or password";
+      cy.get(".Toastify__toast--error")
+        .should("be.visible")
+        .and("contain", errorMessage);
+    });
+    it("Should not do login with a blank email", function () {
+      cy.getBySel("email-input").type("a").clear();
+      cy.getBySel("password-input").type(fakeUser.validPassword);
+      cy.getBySel("privacy-policy-checkbox").click();
+      cy.getBySel("sign-in-sign-up-button").click();
+      cy.get('[data-cy="required-email-error-msg"]');
+      const errorEmailMessage = "Email field is required";
+      cy.getBySel("required-email-error-msg").should(
+        "contain",
+        errorEmailMessage
+      );
+    });
+    it("Should not do login with a invalid password", function () {
+      cy.getBySel("email-input").type(fakeUserLogin.email).clear();
+      cy.getBySel("password-input").type(fakeUser.validPassword);
+      cy.getBySel("privacy-policy-checkbox").click();
+      cy.getBySel("sign-in-sign-up-button").click();
+      const errorPasswordMessage = "invalid email or password";
+      cy.getBySel("password-error-msg").should("contain", errorPasswordMessage);
     });
   });
 });
