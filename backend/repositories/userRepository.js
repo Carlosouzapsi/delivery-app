@@ -17,10 +17,20 @@ class UserRepository {
   }
 
   async FindUserByEmail({ email }) {
-    console.log({ email });
     try {
       const userResult = await UserModel.findOne({ email });
       return userResult;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async listUserProfile(id) {
+    try {
+      const userResult = await UserModel.findById({ _id: id });
+      if (userResult) {
+        return userResult;
+      }
     } catch (err) {
       throw new Error(err);
     }

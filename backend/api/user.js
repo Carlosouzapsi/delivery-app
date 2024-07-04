@@ -1,4 +1,5 @@
 const UserService = require("../services/userService");
+const UserAuth = require("./middlewares/auth");
 
 module.exports = (app) => {
   const userService = new UserService();
@@ -18,7 +19,6 @@ module.exports = (app) => {
     }
   });
 
-  // TODO
   app.post("/user/login", async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -31,5 +31,15 @@ module.exports = (app) => {
     } catch (err) {
       next(err);
     }
+  });
+
+  app.get("/user/profile", UserAuth, async (req, res, next) => {
+    const { _id } = req.user;
+    const data = await userService.listUser(_id);
+    return res.json({
+      success: true,
+      message: "user listed successfully",
+      data: data,
+    });
   });
 };

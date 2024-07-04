@@ -82,6 +82,21 @@ class UserService {
       throw err;
     }
   }
+
+  async listUser(userId) {
+    try {
+      const existingUser = await this.repository.listUserProfile(userId);
+      if (existingUser) {
+        return FormateData({
+          userId: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
+        });
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;

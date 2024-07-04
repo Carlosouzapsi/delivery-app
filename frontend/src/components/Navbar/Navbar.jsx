@@ -67,6 +67,7 @@ const Navbar = ({ setShowLogin }) => {
           </button>
         ) : (
           <div className="navbar-profile">
+            {/* <span className="navbar-username">Hello, {username}!</span> */}
             <img
               data-cy={"profile-icon-logged-user"}
               src={assets.profile_icon}
