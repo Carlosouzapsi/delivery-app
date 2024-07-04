@@ -12,20 +12,15 @@ describe("User Signup and Login", function () {
     after(function () {
       Storage.apiUserLogout();
     });
-    it.only("Should create a new user account with valid information", function () {
+    it("Should create a new user account with valid information", function () {
       signSignupPopUpActions.fillRegisterUserForm(
         fakeUser.name,
         fakeUser.email,
         fakeUser.validPassword,
         fakeUser.validPassword
       );
-      // cy.getBySel("name-input").type(fakeUser.name);
-      // cy.getBySel("email-input").type(fakeUser.email);
-      // cy.getBySel("password-input").type(fakeUser.validPassword);
-      // cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
-
-      // cy.getBySel("privacy-policy-checkbox").click();
-      // signInSignupPopUp.clickOnSignInBtn();
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clickOnCreateAccountBtn();
     });
     it("Should not create a new user account with blank name", function () {
       cy.getBySel("name-input").type("a").clear();

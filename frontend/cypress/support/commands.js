@@ -25,11 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import "./auth-provider-commands/auth";
 
+// To be depreca
 Cypress.Commands.add("getBySel", (selector, ...args) => {
   return cy.get(`[data-cy=${selector}]`, ...args);
-});
-
-// Logout command
-Cypress.Commands.add("logout", () => {
-  cy.window().its("localStorage").invoke("removeItem", "session");
 });

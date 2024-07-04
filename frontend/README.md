@@ -11,6 +11,13 @@ Currently, two official plugins are available:
 
 - https://docs.stripe.com/testing?testing-method=card-numbers#visa (for payment test)
 
+- Testing Automation Architeture:
+
+  - Why am I using adapter?
+    - Adapter ables the test automation architure to be flexible to include new frameworks to replace cypress.
+      if cypress starts to be a not good solution to automate the project, the idea is to change to other
+      framework without big issues.
+
 - Cypress automation Scenarios
 
 Tomato System - TODO LIST NAMES

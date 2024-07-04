@@ -68,8 +68,6 @@ export class TestingLibAdapter {
    * Type the field in given element.
    */
   static typeInElement({ element, text, timeout = type.Timeouts.SHORT }) {
-    
-    
     cy.get(element, { timeout }).type(text);
   }
   /**
