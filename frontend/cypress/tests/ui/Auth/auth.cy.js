@@ -12,7 +12,7 @@ describe("User Signup and Login", function () {
     after(function () {
       Storage.apiUserLogout();
     });
-    it("Should create a new user account with valid information", function () {
+    it.only("Should create a new user account with valid information", function () {
       signSignupPopUpActions.fillRegisterUserForm(
         fakeUser.name,
         fakeUser.email,
@@ -21,6 +21,8 @@ describe("User Signup and Login", function () {
       );
       signInSignupPopUp.clickOnCheckboxPolicyTerms();
       signInSignupPopUp.clickOnCreateAccountBtn();
+
+      signInSignupPopUp.assertAvatarLoggedUserIcon();
     });
     it("Should not create a new user account with blank name", function () {
       cy.getBySel("name-input").type("a").clear();

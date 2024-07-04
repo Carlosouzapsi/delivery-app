@@ -54,7 +54,9 @@ class signInSignupPopUp {
   }
 
   static assertAvatarLoggedUserIcon() {
-    // TestingTool.assertVisibleElement({ element:  })
+    TestingTool.assertVisibleElement({
+      element: pageElements.profile_icon_logged_user,
+    });
   }
 }
 
