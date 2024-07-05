@@ -97,6 +97,18 @@ class UserService {
       throw err;
     }
   }
+
+  async updateUser(userId, updatedValues) {
+    try {
+      const userUpdated = await this.repository.updateUserById(
+        userId,
+        updatedValues
+      );
+      return FormateData(userUpdated);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;

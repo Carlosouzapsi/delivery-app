@@ -35,6 +35,22 @@ class UserRepository {
       throw new Error(err);
     }
   }
+
+  async updateUserById(id, updatedFields) {
+    try {
+      const existingUser = await UserModel.findOne({ _id: id });
+      if (existingUser) {
+        const updatedUser = await UserModel.findByIdAndUpdate(
+          existingUser._id,
+          { $set: updatedFields },
+          { new: true, runValidators: true }
+        );
+        return updatedUser;
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
 
 module.exports = UserRepository;
