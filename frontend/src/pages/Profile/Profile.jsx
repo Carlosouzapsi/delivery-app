@@ -20,7 +20,7 @@ const Profile = () => {
     });
     if (response.data.success) {
       console.log(response.data.data);
-      const { name, email } = response.data.data.data;
+      const { name, email, password } = response.data.data.data;
       setData({ ...data, name, email });
     }
   };
