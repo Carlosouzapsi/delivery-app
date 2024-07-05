@@ -37,36 +37,42 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <h2>Profile</h2>
-      <form action="" autoComplete="off">
-        <input
-          data-cy={"profile-name-input"}
-          name="name"
-          type="text"
-          placeholder="User name"
-          value={data.name}
-          onChange={onChangeHandler}
-          autoComplete="off"
-          required
-        />
-        <input
-          name="email"
-          type="email"
-          data-cy={"profile-email-input"}
-          autoComplete="off"
-        />
-        <input
-          data-cy={"profile-password-input"}
-          type="password"
-          placeholder="New password"
-        />
-        <input
-          data-cy={"profile-confirm-new-password-input"}
-          type="password"
-          placeholder="Confirm new password"
-        />
-        <button>Save Changes</button>
+    <div className="profile-container">
+      <form autoComplete="off" className="profile-info">
+        <h2 className="title">Profile</h2>
+        <div className="multi-fields">
+          <input
+            data-cy={"profile-name-input"}
+            name="name"
+            type="text"
+            placeholder="User name"
+            value={data.name}
+            onChange={onChangeHandler}
+            autoComplete="off"
+            required
+          />
+          <input
+            name="email"
+            type="email"
+            value={data.email}
+            onChange={onChangeHandler}
+            data-cy={"profile-email-input"}
+            autoComplete="off"
+          />
+          <input
+            name="password"
+            type="password"
+            data-cy={"profile-password-input"}
+            placeholder="New password"
+          />
+          <input
+            name="confirm-password"
+            type="confirm-password"
+            data-cy={"profile-confirm-new-password-input"}
+            placeholder="Confirm new password"
+          />
+        </div>
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );
