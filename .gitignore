@@ -10,7 +10,9 @@ lerna-debug.log*
 /backend/node_modules/
 /admin/node_modules/
 /frontend/node_modules/
+/frontend/cypress/reports
 /backend/uploads/
+
 
 dist
 dist-ssr

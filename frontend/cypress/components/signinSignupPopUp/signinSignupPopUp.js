@@ -12,7 +12,7 @@ class signInSignupPopUp {
 
   static clickOnCheckboxPolicyTerms() {
     return TestingTool.clickOnElement({
-      element: pageElements.privace_policy_checkbox,
+      element: pageElements.privacy_policy_checkbox,
     });
   }
 
@@ -49,6 +49,38 @@ class signInSignupPopUp {
     });
   }
 
+  static clearNewUserNameField() {
+    return TestingTool.clearElement({ element: pageElements.name_input });
+  }
+
+  static assertSignUpNameInputError() {
+    return TestingTool.assertElementExists({
+      element: pageElements.required_name_error_msg,
+    });
+  }
+
+  static assertSignUpEmailInputError() {
+    return TestingTool.assertElementExists({
+      element: pageElements.required_email_error_msg,
+    });
+  }
+
+  static assertNameErrorText() {
+    return TestingTool.assertContainsText(pageTexts.name_field_error_text);
+  }
+
+  static assertEmailErrorText() {
+    return TestingTool.assertContainsText(pageTexts.email_field_error_text);
+  }
+
+  static clearNewUserNameField() {
+    return TestingTool.clearElement({ element: pageElements.name_input });
+  }
+
+  static clearNewUserEmailField() {
+    return TestingTool.clearElement({ element: pageElements.email_input });
+  }
+
   static assertPopUpTitle(title) {
     TestingTool.assertContainsText(title);
   }
@@ -57,6 +89,12 @@ class signInSignupPopUp {
     TestingTool.assertVisibleElement({
       element: pageElements.profile_icon_logged_user,
     });
+  }
+
+  static assertCreateAccountBtnIsDisabled() {
+    return TestingTool.assertElementIsDisabled(
+      pageElements.create_account_button
+    );
   }
 }
 

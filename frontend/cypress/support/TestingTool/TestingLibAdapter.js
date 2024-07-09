@@ -105,4 +105,19 @@ export class TestingLibAdapter {
   }) {
     cy.get(element, { timeout }).eq(position).should("exist");
   }
+
+  /**
+   * Validates whether the element is enabled.
+   */
+
+  static assertElementIsEnabled(element, timeout = type.Timeouts.SHORT) {
+    cy.get(element, { timeout }).should("be.enabled");
+  }
+
+  /**
+   * Validates whether the element is disabled.
+   */
+  static assertElementIsDisabled(element, timeout = type.Timeouts.SHORT) {
+    cy.get(element, { timeout }).should("be.disabled");
+  }
 }

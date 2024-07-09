@@ -21,7 +21,7 @@ const Profile = () => {
     if (response.data.success) {
       console.log(response.data.data);
       const { name, email, password } = response.data.data.data;
-      setData({ ...data, name, email });
+      setData({ ...data, name, email, password });
     }
   };
 
@@ -36,9 +36,13 @@ const Profile = () => {
     setData((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const updateUser = async (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="profile-container">
-      <form autoComplete="off" className="profile-info">
+      <form onSubmit={updateUser} autoComplete="off" className="profile-info">
         <h2 className="title">Profile</h2>
         <div className="multi-fields">
           <input
@@ -58,16 +62,21 @@ const Profile = () => {
             onChange={onChangeHandler}
             data-cy={"profile-email-input"}
             autoComplete="off"
+            readOnly
           />
           <input
             name="password"
             type="password"
+            value={data.password}
+            onChange={onChangeHandler}
             data-cy={"profile-password-input"}
             placeholder="New password"
           />
           <input
             name="confirm-password"
             type="confirm-password"
+            value={data.confirmPassword}
+            onChange={onChangeHandler}
             data-cy={"profile-confirm-new-password-input"}
             placeholder="Confirm new password"
           />

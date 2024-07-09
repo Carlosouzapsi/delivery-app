@@ -7,6 +7,16 @@ class SignSignupPopUpActions {
     signInSignupPopUp.fillNewUserPasswordField(password);
     signInSignupPopUp.fillNewUserConfirmPasswordField(confirmPassword);
   }
+
+  static assertNameInputErrors() {
+    signInSignupPopUp.assertSignUpNameInputError();
+    signInSignupPopUp.assertNameErrorText();
+  }
+
+  static assertEmailInputErrors() {
+    signInSignupPopUp.assertSignUpEmailInputError();
+    signInSignupPopUp.assertEmailErrorText();
+  }
 }
 
 export default SignSignupPopUpActions;

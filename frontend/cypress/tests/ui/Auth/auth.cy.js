@@ -12,7 +12,7 @@ describe("User Signup and Login", function () {
     after(function () {
       Storage.apiUserLogout();
     });
-    it.only("Should create a new user account with valid information", function () {
+    it("Should create a new user account with valid information", function () {
       signSignupPopUpActions.fillRegisterUserForm(
         fakeUser.name,
         fakeUser.email,
@@ -25,26 +25,32 @@ describe("User Signup and Login", function () {
       signInSignupPopUp.assertAvatarLoggedUserIcon();
     });
     it("Should not create a new user account with blank name", function () {
-      cy.getBySel("name-input").type("a").clear();
-      cy.getBySel("email-input").type(fakeUser.email);
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
-      cy.getBySel("privacy-policy-checkbox").click();
-      cy.getBySel("sign-in-sign-up-button").should("be.disabled");
-      const nameErrorMsg = "Name field is required";
-      cy.getBySel("required-name-error-msg").should("contain", nameErrorMsg);
+      signSignupPopUpActions.fillRegisterUserForm(
+        fakeUser.name,
+        fakeUser.email,
+        fakeUser.validPassword,
+        fakeUser.validPassword
+      );
+
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clearNewUserNameField();
+
+      signSignupPopUpActions.assertNameInputErrors();
+      signInSignupPopUp.assertCreateAccountBtnIsDisabled();
     });
-    it("Should not create a new user account with blank email", function () {
-      cy.getBySel("name-input").type(fakeUser.name);
-      cy.getBySel("email-input").type("a").clear();
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
+    it.only("Should not create a new user account with blank email", function () {
+      signSignupPopUpActions.fillRegisterUserForm(
+        fakeUser.name,
+        fakeUser.email,
+        fakeUser.validPassword,
+        fakeUser.validPassword
+      );
 
-      cy.getBySel("privacy-policy-checkbox").click();
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clearNewUserEmailField();
 
-      cy.getBySel("sign-in-sign-up-button").should("be.disabled");
-      const emailErrorMsg = "Please type a valid email address";
-      cy.getBySel("valid-email-error-msg").should("contain", emailErrorMsg);
+      signSignupPopUpActions.assertEmailInputErrors();
+      signInSignupPopUp.assertCreateAccountBtnIsDisabled();
     });
     it("Should not create a new user account with invalid email", function () {
       cy.getBySel("name-input").type(fakeUser.name);
