@@ -38,7 +38,7 @@ describe("User Signup and Login", function () {
       signSignupPopUpActions.assertNameInputErrors();
       signInSignupPopUp.assertCreateAccountBtnIsDisabled();
     });
-    it.only("Should not create a new user account with blank email", function () {
+    it("Should not create a new user account with blank email", function () {
       signSignupPopUpActions.fillRegisterUserForm(
         fakeUser.name,
         fakeUser.email,
@@ -53,46 +53,44 @@ describe("User Signup and Login", function () {
       signInSignupPopUp.assertCreateAccountBtnIsDisabled();
     });
     it("Should not create a new user account with invalid email", function () {
-      cy.getBySel("name-input").type(fakeUser.name);
-      cy.getBySel("email-input").type("testmail.com");
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
+      signSignupPopUpActions.fillRegisterUserForm(
+        fakeUser.name,
+        "testmail.com",
+        fakeUser.validPassword,
+        fakeUser.validPassword
+      );
 
-      cy.getBySel("privacy-policy-checkbox").click();
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
 
-      cy.getBySel("sign-in-sign-up-button").should("be.disabled");
-      const emailErrorMsg = "Please type a valid email address";
-      cy.getBySel("valid-email-error-msg").should("contain", emailErrorMsg);
+      signSignupPopUpActions.assertEmailInputErrors();
+      signInSignupPopUp.assertCreateAccountBtnIsDisabled();
     });
     it("Should not create a new user account with blank password", function () {
-      cy.getBySel("name-input").type(fakeUser.name);
-      cy.getBySel("email-input").type(fakeUser.email);
-      cy.getBySel("password-input").type(fakeUser.validPassword).clear();
-      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
-
-      cy.getBySel("privacy-policy-checkbox").click();
-
-      cy.getBySel("sign-in-sign-up-button").should("be.disabled");
-      const passwordErrorMsg = "Password need at least 6 characters";
-      cy.getBySel("invalid-password-error-msg").should(
-        "contain",
-        passwordErrorMsg
+      signSignupPopUpActions.fillRegisterUserForm(
+        fakeUser.name,
+        fakeUser.email,
+        fakeUser.validPassword,
+        fakeUser.validPassword
       );
+      signInSignupPopUp.clearNewUserPasswordField();
+
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.assertCreateAccountBtnIsDisabled();
+
+      signSignupPopUpActions.assertPasswordInputErrors();
     });
     it("Should not create a new user account with invalid password", function () {
-      cy.getBySel("name-input").type(fakeUser.name);
-      cy.getBySel("email-input").type(fakeUser.email);
-      cy.getBySel("password-input").type("invalidPass");
-      cy.getBySel("confirm-password-input").type(fakeUser.validPassword);
-
-      cy.getBySel("privacy-policy-checkbox").click();
-
-      cy.getBySel("sign-in-sign-up-button").should("be.disabled");
-      const confirmPasswordErrorMsg = "Password does not match";
-      cy.getBySel("confirm-password-error-msg").should(
-        "contain",
-        confirmPasswordErrorMsg
+      signSignupPopUpActions.fillRegisterUserForm(
+        fakeUser.name,
+        fakeUser.email,
+        "invalidPass",
+        fakeUser.validPassword
       );
+
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+
+      signInSignupPopUp.assertCreateAccountBtnIsDisabled();
+      signSignupPopUpActions.assertConfirmPasswordInputErrors();
     });
   });
   context.skip("Signin", function () {

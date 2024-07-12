@@ -65,12 +65,36 @@ class signInSignupPopUp {
     });
   }
 
+  static assertSignUpPasswordInputError() {
+    return TestingTool.assertElementExists({
+      element: pageElements.weak_password_error_msg,
+    });
+  }
+
+  static assertSignUpConfirmPasswordInputError() {
+    return TestingTool.assertElementExists({
+      element: pageElements.confirm_password_error_msg,
+    });
+  }
+
   static assertNameErrorText() {
     return TestingTool.assertContainsText(pageTexts.name_field_error_text);
   }
 
   static assertEmailErrorText() {
     return TestingTool.assertContainsText(pageTexts.email_field_error_text);
+  }
+
+  static assertPasswordErrorText() {
+    return TestingTool.assertContainsText(
+      pageTexts.weak_password_field_error_text
+    );
+  }
+
+  static assertConfirmPasswordErrorText() {
+    return TestingTool.assertContainsText(
+      pageTexts.confirm_password_field_error_text
+    );
   }
 
   static clearNewUserNameField() {
@@ -81,6 +105,9 @@ class signInSignupPopUp {
     return TestingTool.clearElement({ element: pageElements.email_input });
   }
 
+  static clearNewUserPasswordField() {
+    return TestingTool.clearElement({ element: pageElements.password_input });
+  }
   static assertPopUpTitle(title) {
     TestingTool.assertContainsText(title);
   }

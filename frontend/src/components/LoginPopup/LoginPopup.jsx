@@ -136,7 +136,10 @@ const LoginPopup = ({ setShowLogin }) => {
 
   return (
     <div className="login-popup">
-      <form onSubmit={onLogin} className="login-popup-container">
+      <form
+        autoComplete="off"
+        onSubmit={onLogin}
+        className="login-popup-container">
         <div className="login-popup-title" data-cy={"login-popup-title"}>
           <h2>{currState}</h2>
           <img
@@ -150,6 +153,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <></>
           ) : (
             <input
+              autoComplete="off"
               data-cy={"name-input"}
               name="name"
               onChange={onChangeHandler}
@@ -165,6 +169,7 @@ const LoginPopup = ({ setShowLogin }) => {
             </p>
           )}
           <input
+            autoComplete="off"
             data-cy={"email-input"}
             name="email"
             onChange={onChangeHandler}
@@ -185,6 +190,7 @@ const LoginPopup = ({ setShowLogin }) => {
           )}
 
           <input
+            autoComplete="off"
             data-cy="password-input"
             name="password"
             onChange={onChangeHandler}
@@ -207,6 +213,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <></>
           ) : (
             <input
+              autoComplete="off"
               data-cy="confirm-password-input"
               name="confirmPassword"
               onChange={onChangeHandler}

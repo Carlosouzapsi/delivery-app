@@ -17,6 +17,16 @@ class SignSignupPopUpActions {
     signInSignupPopUp.assertSignUpEmailInputError();
     signInSignupPopUp.assertEmailErrorText();
   }
+
+  static assertPasswordInputErrors() {
+    signInSignupPopUp.assertSignUpPasswordInputError();
+    signInSignupPopUp.assertPasswordErrorText();
+  }
+
+  static assertConfirmPasswordInputErrors() {
+    signInSignupPopUp.assertSignUpConfirmPasswordInputError();
+    signInSignupPopUp.assertConfirmPasswordErrorText();
+  }
 }
 
 export default SignSignupPopUpActions;

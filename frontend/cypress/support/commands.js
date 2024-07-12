@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import "./auth-provider-commands/auth";
 
-// To be depreca
+// To be deprecated
 Cypress.Commands.add("getBySel", (selector, ...args) => {
   return cy.get(`[data-cy=${selector}]`, ...args);
 });
