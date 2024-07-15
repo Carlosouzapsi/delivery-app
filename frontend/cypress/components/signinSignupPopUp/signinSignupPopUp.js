@@ -10,6 +10,12 @@ class signInSignupPopUp {
     return TestingTool.clickOnElement({ element: pageElements.signin_button });
   }
 
+  static clickOnLoginLinkBtn() {
+    return TestingTool.clickOnElement({
+      element: pageElements.loginPopUp_button_link,
+    });
+  }
+
   static clickOnCheckboxPolicyTerms() {
     return TestingTool.clickOnElement({
       element: pageElements.privacy_policy_checkbox,

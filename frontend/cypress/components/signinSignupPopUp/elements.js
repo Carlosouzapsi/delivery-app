@@ -11,6 +11,7 @@ export const pageElements = {
   required_name_error_msg: "[data-cy='required-name-error-msg']",
   weak_password_error_msg: "[data-cy='invalid-password-error-msg']",
   confirm_password_error_msg: "[data-cy='confirm-password-error-msg']",
+  loginPopUp_button_link: "[data-cy='login-popup-link']",
 };
 
 export const pageTexts = {

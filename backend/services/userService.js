@@ -98,14 +98,30 @@ class UserService {
     }
   }
 
-  async updateUser(userId, updatedValues) {
+  async updateUser(userId, updatedUserInputs) {
     try {
+      if (updatedUserInputs.password) {
+        if (updatedUserInputs.password !== updatedUserInputs.confirmPassword) {
+          throw new ValidationError("Password does not match");
+        }
+        let salt = await GenerateSalt();
+        let hashedPassword = await GeneratePassword(
+          updatedUserInputs.password,
+          salt
+        );
+        updatedUserInputs.password = hashedPassword;
+        updatedUserInputs.salt = salt;
+      }
+      delete updatedUserInputs.confirmPassword;
+
       const userUpdated = await this.repository.updateUserById(
         userId,
-        updatedValues
+        updatedUserInputs
       );
+
       return FormateData(userUpdated);
     } catch (err) {
+      console.error(err);
       throw err;
     }
   }

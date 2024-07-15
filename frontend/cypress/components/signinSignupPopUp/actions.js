@@ -8,6 +8,11 @@ class SignSignupPopUpActions {
     signInSignupPopUp.fillNewUserConfirmPasswordField(confirmPassword);
   }
 
+  static fillLoginForm(email, password) {
+    signInSignupPopUp.fillNewUserEmailField(email);
+    signInSignupPopUp.fillNewUserPasswordField(password);
+  }
+
   static assertNameInputErrors() {
     signInSignupPopUp.assertSignUpNameInputError();
     signInSignupPopUp.assertNameErrorText();

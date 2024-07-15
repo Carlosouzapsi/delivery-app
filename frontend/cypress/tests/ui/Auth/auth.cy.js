@@ -93,34 +93,22 @@ describe("User Signup and Login", function () {
       signSignupPopUpActions.assertConfirmPasswordInputErrors();
     });
   });
-  context.skip("Signin", function () {
-    const userCredentials = {
-      name: fakeUserLogin.name,
-      email: fakeUserLogin.email,
-      password: fakeUserLogin.validPassword,
-      confirmPassword: fakeUserLogin.validPassword,
-    };
+  context.only("Signin", function () {
     beforeEach(function () {
-      cy.apiSignUp(
-        userCredentials.name,
-        userCredentials.email,
-        userCredentials.password,
-        userCredentials.confirmPassword
-      );
-      cy.logout();
-      cy.visit("/");
-      cy.getBySel("signin-button").should("exist").click();
-      cy.getBySel("login-popup-title")
-        .should("be.visible")
-        .and("contain", "Sign Up");
-      cy.getBySel("login-popup-link").should("exist").click();
+      signInSignupPopUp.goTo("/");
+      signInSignupPopUp.clickOnSignInBtn();
+      signInSignupPopUp.assertPopUpTitle("Sign Up");
+      signInSignupPopUp.clickOnLoginLinkBtn();
     });
     afterEach(function () {
-      cy.logout();
+      Storage.apiUserLogout();
     });
-    it("Should do login sucessfully", function () {
-      cy.getBySel("email-input").type(fakeUser.email);
-      cy.getBySel("password-input").type(fakeUser.validPassword);
+
+    it.only("Should do login sucessfully", function () {
+      signSignupPopUpActions.fillLoginForm(
+        fakeUserLogin.email,
+        fakeUserLogin.validPassword
+      );
       cy.getBySel("privacy-policy-checkbox").click();
       cy.getBySel("sign-in-sign-up-button").click();
 

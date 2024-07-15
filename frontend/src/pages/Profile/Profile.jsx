@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Profile.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   // const [data, setData] = useState([]);
@@ -38,6 +39,14 @@ const Profile = () => {
 
   const updateUser = async (event) => {
     event.preventDefault();
+    try {
+      const response = await axios.patch(url + "/user/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (

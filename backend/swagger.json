@@ -132,6 +132,110 @@
           }
         }
       }
+    },
+    "/user/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User Login",
+        "description": "User login",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "john.doe@email.com",
+                  "password": "123456"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "user logged successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "12345"
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxvczQzNDMuc291emFAZW1haWwuY29tIiwiX2lkIjoiNjY3ZGI1YjNmNjM3ODliMGMxZTZhODhiIiwiaWF0IjoxNzE5NTE0NTQ3LCJleHAiOjE3MjIxMDY1NDd9.5KUG7WWIqUlGljsegiR9Htixxlir5ML_3NZY9kHyNCg"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Please enter a strong password"
+                    }
+                  }
+                },
+                "example": {
+                  "invalid credentials": {
+                    "summary": "Invalid email or password",
+                    "value": {
+                      "message": "invalid email or password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -35,21 +35,34 @@ module.exports = (app) => {
 
   app.get("/user/profile", UserAuth, async (req, res, next) => {
     const { _id } = req.user;
-    const data = await userService.listUser(_id);
-    return res.json({
-      success: true,
-      message: "user listed successfully",
-      data: data,
-    });
+    try {
+      const data = await userService.listUser(_id);
+      return res.json({
+        success: true,
+        message: "user listed successfully",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 
   app.patch("/user/profile", UserAuth, async (req, res, next) => {
     const { _id } = req.user;
     const { name, password, confirmPassword } = req.body;
-    const { data } = await userService.updateUser(_id, {
-      name,
-      password,
-      confirmPassword,
-    });
+    try {
+      const { data } = await userService.updateUser(_id, {
+        name,
+        password,
+        confirmPassword,
+      });
+      return res.json({
+        success: true,
+        message: "user updated successfully",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 };
