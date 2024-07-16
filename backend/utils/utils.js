@@ -2,7 +2,34 @@ const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Stripe = require("stripe");
+const nodemailer = require("nodemailer");
 const STRIPE_KEY = require("../config");
+
+module.exports.nodeMailerConfig = async (email, link) => {
+  // TODO
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: `tomato@admin.com`,
+      pass: `password`,
+    },
+  });
+
+  const mailOptions = {
+    from: `${email}`,
+    to: email,
+    subject: "reset password",
+    text: `Clique aqui para redefinir sua senha ${link}`,
+  };
+
+  return await transporter.sendMail(mailOptions);
+};
+
+module.exports.createPasswordResetLink = async (payload) => {
+  const token = await this.GenerateSignature(payload);
+  const resetLink = `http://localhost:4000/reset-password/${token}`;
+  return resetLink;
+};
 
 // Image Storage Engine
 module.exports.ManageUpload = (image_file) => {

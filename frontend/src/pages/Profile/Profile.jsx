@@ -15,6 +15,14 @@ const Profile = () => {
     confirmPassword: "",
   });
 
+  const [originalData, setOriginalData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [message, setMessage] = useState("");
+
   const fetchUserProfile = async (token) => {
     const response = await axios.get(url + "/user/profile", {
       headers: { Authorization: `Bearer ${token}` },
@@ -23,6 +31,7 @@ const Profile = () => {
       console.log(response.data.data);
       const { name, email, password } = response.data.data.data;
       setData({ ...data, name, email, password });
+      setOriginalData({ name, email, password });
     }
   };
 
@@ -39,11 +48,30 @@ const Profile = () => {
 
   const updateUser = async (event) => {
     event.preventDefault();
+    let updateFields = {};
+
+    if (data.name !== originalData.name) {
+      updateFields.name = data.name;
+    }
+    if (data.password && data.password !== originalData.password) {
+      if (data.password !== data.confirmPassword) {
+        setMessage("Passwords do not match");
+        return;
+      }
+      if (data.password.length <= 5) {
+        setMessage("Please type a stronger password");
+      }
+      updateFields = data.password;
+    }
     try {
-      const response = await axios.patch(url + "/user/profile", {
+      const response = await axios.patch(url + "/user/profile", updateFields, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log(response);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setOriginalData({ ...originalData, ...updateFields });
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -82,8 +110,8 @@ const Profile = () => {
             placeholder="New password"
           />
           <input
-            name="confirm-password"
-            type="confirm-password"
+            name="confirmPassword"
+            type="password"
             value={data.confirmPassword}
             onChange={onChangeHandler}
             data-cy={"profile-confirm-new-password-input"}
@@ -91,6 +119,7 @@ const Profile = () => {
           />
         </div>
         <button type="submit">Save Changes</button>
+        {message && <p>{message}</p>}
       </form>
     </div>
   );

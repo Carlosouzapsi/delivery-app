@@ -65,4 +65,24 @@ module.exports = (app) => {
       next(err);
     }
   });
+
+  app.post("/user/forgot-password", async (req, res, next) => {
+    const { email } = req.body;
+    try {
+      const { data } = await userService.forgotUserPasswordRecoverLink(email);
+      return res.json({ message: "recovery link generated", data: data });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/user/reset-password/:token", async (req, res, next) => {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    try {
+    } catch (err) {
+      next(err);
+    }
+  });
 };

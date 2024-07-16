@@ -5,6 +5,8 @@ const {
   GenerateSignature,
   ValidatePassword,
   GeneratePassword,
+  createPasswordResetLink,
+  nodeMailerConfig,
 } = require("../utils/utils");
 const validator = require("validator");
 const { APIError, ValidationError } = require("../utils/app-errors");
@@ -122,6 +124,19 @@ class UserService {
       return FormateData(userUpdated);
     } catch (err) {
       console.error(err);
+      throw err;
+    }
+  }
+
+  async forgotUserPasswordRecoverLink(email) {
+    try {
+      const existingUser = await this.repository.FindUserByEmail({ email });
+      const createResetLink = await createPasswordResetLink({
+        _id: existingUser._id,
+      });
+      const sendResetLinkMail = nodeMailerConfig(email);
+      return FormateData({ sendResetLinkMail, createResetLink });
+    } catch (err) {
       throw err;
     }
   }
