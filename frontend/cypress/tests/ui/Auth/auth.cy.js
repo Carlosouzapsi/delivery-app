@@ -2,6 +2,7 @@ import { fakeUser, fakeUserLogin } from "../../../support/utils";
 import signInSignupPopUp from "../../../components/signinSignupPopUp/signinSignupPopUp";
 import signSignupPopUpActions from "../../../components/signinSignupPopUp/actions";
 import { Storage } from "../../../support/shared/generalClasses/Storage";
+import { Requests } from "../../../support/shared/generalClasses/Requests";
 describe("User Signup and Login", function () {
   context("Signup", function () {
     beforeEach(function () {
@@ -10,7 +11,7 @@ describe("User Signup and Login", function () {
       signInSignupPopUp.assertPopUpTitle("Sign Up");
     });
     after(function () {
-      Storage.apiUserLogout();
+      Storage.userLogout();
     });
     it("Should create a new user account with valid information", function () {
       signSignupPopUpActions.fillRegisterUserForm(
@@ -94,6 +95,10 @@ describe("User Signup and Login", function () {
     });
   });
   context.only("Signin", function () {
+    before(function () {
+      // TODO
+      Requests.apiUserSignup("POST");
+    });
     beforeEach(function () {
       signInSignupPopUp.goTo("/");
       signInSignupPopUp.clickOnSignInBtn();
@@ -101,7 +106,7 @@ describe("User Signup and Login", function () {
       signInSignupPopUp.clickOnLoginLinkBtn();
     });
     afterEach(function () {
-      Storage.apiUserLogout();
+      Storage.userLogout();
     });
 
     it.only("Should do login sucessfully", function () {
@@ -109,10 +114,10 @@ describe("User Signup and Login", function () {
         fakeUserLogin.email,
         fakeUserLogin.validPassword
       );
-      cy.getBySel("privacy-policy-checkbox").click();
-      cy.getBySel("sign-in-sign-up-button").click();
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clickOnCreateAccountBtn();
 
-      cy.getBySel("profile-icon-logged-user").should("be.visible");
+      signInSignupPopUp.assertAvatarLoggedUserIcon();
     });
     it("Should not do login with an not registered email", function () {
       cy.getBySel("email-input").type("invalid@email.com");

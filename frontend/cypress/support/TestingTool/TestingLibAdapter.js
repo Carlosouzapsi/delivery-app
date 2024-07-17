@@ -120,4 +120,23 @@ export class TestingLibAdapter {
   static assertElementIsDisabled(element, timeout = type.Timeouts.SHORT) {
     cy.get(element, { timeout }).should("be.disabled");
   }
+
+  static clearLocalStorageSession() {
+    return cy.window().its("localStorage").invoke("removeItem", "session");
+  }
+  /*
+   * Cypress Generic Post request
+   *
+   */
+  static request(apiMethod, apiUrl, body, respStatus) {
+    return cy
+      .request({
+        method: `${apiMethod}`,
+        url: `${apiUrl}`,
+        body: body,
+      })
+      .then((resp) => {
+        expect(resp.status).to.eq(respStatus);
+      });
+  }
 }

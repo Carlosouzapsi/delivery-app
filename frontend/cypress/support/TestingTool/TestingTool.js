@@ -11,6 +11,14 @@ export class TestingTool extends TestingLibAdapter {
     // this.waitForLoading();
   }
 
+  static removeUserAuthToken() {
+    this.clearLocalStorageSession();
+  }
+
+  static postUser(method, url, body, statusCode) {
+    this.request(method, url, body, statusCode);
+  }
+
   /*
    * Wait for the first load.
    */
