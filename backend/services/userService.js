@@ -131,11 +131,14 @@ class UserService {
   async forgotUserPasswordRecoverLink(email) {
     try {
       const existingUser = await this.repository.FindUserByEmail({ email });
-      const createResetLink = await createPasswordResetLink({
-        _id: existingUser._id,
-      });
-      const sendResetLinkMail = nodeMailerConfig(email);
-      return FormateData({ sendResetLinkMail, createResetLink });
+      if (existingUser) {
+        const token = await GenerateSignature({
+          _id: existingUser._id,
+        });
+        const resetLink = `http://localhost:4000/reset-password/${token}`;
+        const sendResetLinkMail = await nodeMailerConfig(email, resetLink);
+        return FormateData({ sendResetLinkMail });
+      }
     } catch (err) {
       throw err;
     }

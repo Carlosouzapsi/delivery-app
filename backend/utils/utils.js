@@ -6,23 +6,29 @@ const nodemailer = require("nodemailer");
 const STRIPE_KEY = require("../config");
 
 module.exports.nodeMailerConfig = async (email, link) => {
-  // TODO
+  let testAccount = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.ethereal.email",
+    port: 587,
     auth: {
-      user: `tomato@admin.com`,
-      pass: `password`,
+      user: testAccount.user,
+      pass: testAccount.pass,
     },
   });
 
   const mailOptions = {
-    from: `${email}`,
+    from: testAccount.user,
     to: email,
     subject: "reset password",
     text: `Clique aqui para redefinir sua senha ${link}`,
   };
 
-  return await transporter.sendMail(mailOptions);
+  return await transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.error(error);
+    }
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  });
 };
 
 module.exports.createPasswordResetLink = async (payload) => {
