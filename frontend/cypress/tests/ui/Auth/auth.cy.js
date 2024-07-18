@@ -7,6 +7,7 @@ describe("User Signup and Login", function () {
   context("Signup", function () {
     beforeEach(function () {
       signInSignupPopUp.goTo("/");
+      // signInSignupPopUp.goTo("http://localhost:5173");
       signInSignupPopUp.clickOnSignInBtn();
       signInSignupPopUp.assertPopUpTitle("Sign Up");
     });
@@ -96,8 +97,15 @@ describe("User Signup and Login", function () {
   });
   context.only("Signin", function () {
     before(function () {
-      // TODO
-      Requests.apiUserSignup("POST");
+      // Body equals to false
+      Requests.apiClearData();
+      const payload = {
+        name: fakeUserLogin.name,
+        email: fakeUserLogin.email,
+        password: fakeUserLogin.validPassword,
+        confirmPassword: fakeUserLogin.validPassword,
+      };
+      Requests.apiUserSignup(payload);
     });
     beforeEach(function () {
       signInSignupPopUp.goTo("/");

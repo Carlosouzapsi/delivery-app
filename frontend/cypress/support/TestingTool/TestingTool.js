@@ -16,7 +16,11 @@ export class TestingTool extends TestingLibAdapter {
   }
 
   static postUser(method, url, body, statusCode) {
-    this.request(method, url, body, statusCode);
+    this.PostRequest(method, url, body, statusCode);
+  }
+
+  static clearData(method, url, statusCode) {
+    this.DeleteRequest(method, url, statusCode);
   }
 
   /*

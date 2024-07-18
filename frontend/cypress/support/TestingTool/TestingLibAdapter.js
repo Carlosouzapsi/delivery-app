@@ -128,12 +128,23 @@ export class TestingLibAdapter {
    * Cypress Generic Post request
    *
    */
-  static request(apiMethod, apiUrl, body, respStatus) {
+  static PostRequest(apiMethod, apiUrl, body, respStatus) {
     return cy
       .request({
         method: `${apiMethod}`,
         url: `${apiUrl}`,
         body: body,
+      })
+      .then((resp) => {
+        expect(resp.status).to.eq(respStatus);
+      });
+  }
+
+  static DeleteRequest(apiMethod, apiUrl, respStatus) {
+    return cy
+      .request({
+        method: `${apiMethod}`,
+        url: `${apiUrl}`,
       })
       .then((resp) => {
         expect(resp.status).to.eq(respStatus);

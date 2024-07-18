@@ -12,10 +12,26 @@ const HTTP_METHODS = {
   POST: "POST",
   PATCH: "PATCH",
   GET: "GET",
+  DELETE: "DELETE",
+};
+
+const URL = {
+  registerUser: "http://localhost:4001/user/register",
+  clearData: "http://localhost:4001/clear-data",
 };
 
 export class Requests {
-  static apiUserSignup(url, body, statusCode) {
-    TestingTool.postUser(HTTP_METHODS.POST, url, body, STATUS_CODES.OK);
+  // method, url, body, statusCode
+  static apiUserSignup(body) {
+    TestingTool.postUser(
+      HTTP_METHODS.POST,
+      URL.registerUser,
+      body,
+      STATUS_CODES.OK
+    );
+  }
+
+  static apiClearData(body) {
+    TestingTool.clearData(HTTP_METHODS.DELETE, URL.clearData, STATUS_CODES.OK);
   }
 }
