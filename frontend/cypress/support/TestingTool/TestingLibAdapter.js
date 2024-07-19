@@ -120,4 +120,27 @@ export class TestingLibAdapter {
   static assertElementIsDisabled(element, timeout = type.Timeouts.SHORT) {
     cy.get(element, { timeout }).should("be.disabled");
   }
+
+  static PostRequest(method, url, body, statusCode) {
+    cy.request({
+      method: `${method}`,
+      url: `${url}`,
+      body: body,
+    }).then((response) => {
+      expect(response.status).to.eq(statusCode);
+    });
+  }
+
+  static DeleteRequest(method, url, statusCode) {
+    cy.request({
+      method: `${method}`,
+      url: `${url}`,
+    }).then((response) => {
+      expect(response.status).to.eq(statusCode);
+    });
+  }
+
+  static clearLocalStorageSession() {
+    cy.clearLocalStorage();
+  }
 }

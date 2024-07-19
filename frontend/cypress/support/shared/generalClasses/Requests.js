@@ -31,7 +31,7 @@ export class Requests {
     );
   }
 
-  static apiClearData(body) {
+  static apiClearData() {
     TestingTool.clearData(HTTP_METHODS.DELETE, URL.clearData, STATUS_CODES.OK);
   }
 }

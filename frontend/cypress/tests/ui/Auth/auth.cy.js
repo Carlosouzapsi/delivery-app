@@ -4,13 +4,12 @@ import signSignupPopUpActions from "../../../components/signinSignupPopUp/action
 import { Storage } from "../../../support/shared/generalClasses/Storage";
 import { Requests } from "../../../support/shared/generalClasses/Requests";
 describe("User Signup and Login", function () {
-  context("Signup", function () {
+  context.only("Signup", function () {
     before(function () {
       Requests.apiClearData();
     });
     beforeEach(function () {
-      signInSignupPopUp.goTo("/");
-      // signInSignupPopUp.goTo("http://localhost:5173");
+      signInSignupPopUp.goTo("localhost:5173");
       signInSignupPopUp.clickOnSignInBtn();
       signInSignupPopUp.assertPopUpTitle("Sign Up");
     });
@@ -139,7 +138,7 @@ describe("User Signup and Login", function () {
 
       signSignupPopUpActions.assertInvalidEmailPasswordErrors();
     });
-    it.only("Should not do login with a blank email", function () {
+    it("Should not do login with a blank email", function () {
       cy.getBySel("email-input").type("a").clear();
       cy.getBySel("password-input").type(fakeUser.validPassword);
       cy.getBySel("privacy-policy-checkbox").click();
