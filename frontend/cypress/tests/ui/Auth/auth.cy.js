@@ -5,6 +5,9 @@ import { Storage } from "../../../support/shared/generalClasses/Storage";
 import { Requests } from "../../../support/shared/generalClasses/Requests";
 describe("User Signup and Login", function () {
   context("Signup", function () {
+    before(function () {
+      Requests.apiClearData();
+    });
     beforeEach(function () {
       signInSignupPopUp.goTo("/");
       // signInSignupPopUp.goTo("http://localhost:5173");
@@ -95,9 +98,8 @@ describe("User Signup and Login", function () {
       signSignupPopUpActions.assertConfirmPasswordInputErrors();
     });
   });
-  context.only("Signin", function () {
+  context("Signin", function () {
     before(function () {
-      // Body equals to false
       Requests.apiClearData();
       const payload = {
         name: fakeUserLogin.name,
@@ -117,7 +119,7 @@ describe("User Signup and Login", function () {
       Storage.userLogout();
     });
 
-    it.only("Should do login sucessfully", function () {
+    it("Should do login sucessfully", function () {
       signSignupPopUpActions.fillLoginForm(
         fakeUserLogin.email,
         fakeUserLogin.validPassword
@@ -128,17 +130,16 @@ describe("User Signup and Login", function () {
       signInSignupPopUp.assertAvatarLoggedUserIcon();
     });
     it("Should not do login with an not registered email", function () {
-      cy.getBySel("email-input").type("invalid@email.com");
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("privacy-policy-checkbox").click();
-      cy.getBySel("sign-in-sign-up-button").click();
+      signSignupPopUpActions.fillLoginForm(
+        "invalid@email.com",
+        fakeUserLogin.validPassword
+      );
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clickOnCreateAccountBtn();
 
-      const errorMessage = "invalid email or password";
-      cy.get(".Toastify__toast--error")
-        .should("be.visible")
-        .and("contain", errorMessage);
+      signSignupPopUpActions.assertInvalidEmailPasswordErrors();
     });
-    it("Should not do login with a blank email", function () {
+    it.only("Should not do login with a blank email", function () {
       cy.getBySel("email-input").type("a").clear();
       cy.getBySel("password-input").type(fakeUser.validPassword);
       cy.getBySel("privacy-policy-checkbox").click();

@@ -70,7 +70,11 @@ module.exports = (app) => {
     const { email } = req.body;
     try {
       const { data } = await userService.forgotUserPasswordRecoverLink(email);
-      return res.json({ message: "recovery link generated", data: data });
+      return res.json({
+        success: true,
+        message: "recovery link generated",
+        data: data,
+      });
     } catch (err) {
       next(err);
     }

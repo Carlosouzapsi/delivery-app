@@ -103,6 +103,18 @@ class signInSignupPopUp {
     );
   }
 
+  static assertInvalidEmailPasswordErrorToast() {
+    return TestingTool.assertElementExists({
+      element: pageElements.toastErrorElement,
+    });
+  }
+
+  static assertInvalidEmailPasswordErrorToastText() {
+    return TestingTool.assertContainsText(
+      pageTexts.invalid_email_password_text
+    );
+  }
+
   static clearNewUserNameField() {
     return TestingTool.clearElement({ element: pageElements.name_input });
   }

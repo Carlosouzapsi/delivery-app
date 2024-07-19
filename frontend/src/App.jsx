@@ -11,6 +11,7 @@ import MyOrders from "./pages/MyOrders/MyOrders";
 import Profile from "./pages/Profile/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/verify" element={<Verify />} />
           <Route path="/myorders" element={<MyOrders />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="recover-password" element={<RecoverPassword />} />
         </Routes>
       </div>
       <Footer />

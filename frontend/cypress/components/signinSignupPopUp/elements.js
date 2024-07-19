@@ -12,6 +12,7 @@ export const pageElements = {
   weak_password_error_msg: "[data-cy='invalid-password-error-msg']",
   confirm_password_error_msg: "[data-cy='confirm-password-error-msg']",
   loginPopUp_button_link: "[data-cy='login-popup-link']",
+  toastErrorElement: ".Toastify__toast--error",
 };
 
 export const pageTexts = {
@@ -19,4 +20,5 @@ export const pageTexts = {
   email_field_error_text: "Please type a valid email address",
   weak_password_field_error_text: "Password need at least 6 characters",
   confirm_password_field_error_text: "Password does not match",
+  invalid_email_password_text: "invalid email or password",
 };

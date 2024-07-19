@@ -123,6 +123,20 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
+  const onForgotPassword = async (event) => {
+    event.preventDefault();
+    let newUrl = `${url}/user/forgot-password`;
+    try {
+      const response = await axios.post(newUrl, { email: data.email });
+      console.log(response);
+      if (response.data.success) {
+        toast.success("Password reset link sent to your email");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   const isSignUpDisabled =
     currState === "Sign Up" &&
     (!data.name ||
@@ -138,7 +152,7 @@ const LoginPopup = ({ setShowLogin }) => {
     <div className="login-popup">
       <form
         autoComplete="off"
-        onSubmit={onLogin}
+        onSubmit={currState === "Forgot Password" ? onForgotPassword : onLogin}
         className="login-popup-container">
         <div className="login-popup-title" data-cy={"login-popup-title"}>
           <h2>{currState}</h2>
@@ -149,102 +163,158 @@ const LoginPopup = ({ setShowLogin }) => {
           />
         </div>
         <div className="login-popup-inputs">
-          {currState === "Login" ? (
-            <></>
-          ) : (
-            <input
-              autoComplete="off"
-              data-cy={"name-input"}
-              name="name"
-              onChange={onChangeHandler}
-              value={data.name}
-              type="text"
-              placeholder="Your name"
-              required
-            />
+          {currState === "Sign Up" && (
+            <>
+              <input
+                autoComplete="off"
+                data-cy={"name-input"}
+                name="name"
+                onChange={onChangeHandler}
+                value={data.name}
+                type="text"
+                placeholder="Your name"
+                required
+              />
+              {nameError && (
+                <p data-cy={"required-name-error-msg"} className="error">
+                  {nameError}
+                </p>
+              )}
+            </>
           )}
-          {nameError && currState === "Sign Up" && (
-            <p data-cy={"required-name-error-msg"} className="error">
-              {nameError}
-            </p>
+          {currState !== "Sign Up" && currState !== "Forgot Password" && (
+            <>
+              <input
+                autoComplete="off"
+                data-cy={"email-input"}
+                name="email"
+                onChange={onChangeHandler}
+                value={data.email}
+                type="text"
+                placeholder="Your email"
+                required
+              />
+              {emailError && (
+                <p data-cy={"required-email-error-msg"} className="error">
+                  {emailError}
+                </p>
+              )}
+            </>
           )}
-          <input
-            autoComplete="off"
-            data-cy={"email-input"}
-            name="email"
-            onChange={onChangeHandler}
-            value={data.email}
-            type="text"
-            placeholder="Your email"
-            required
-          />
-          {emailError && currState === "Sign Up" && (
-            <p data-cy={"valid-email-error-msg"} className="error">
-              {emailError}
-            </p>
+          {currState === "Sign Up" && (
+            <>
+              <input
+                autoComplete="off"
+                data-cy={"email-input"}
+                name="email"
+                onChange={onChangeHandler}
+                value={data.email}
+                type="text"
+                placeholder="Your email"
+                required
+              />
+              {emailError && (
+                <p data-cy={"valid-email-error-msg"} className="error">
+                  {emailError}
+                </p>
+              )}
+              <input
+                autoComplete="off"
+                data-cy="password-input"
+                name="password"
+                onChange={onChangeHandler}
+                value={data.password}
+                type="password"
+                placeholder="Password"
+                required
+              />
+              {passwordError && (
+                <p data-cy={"invalid-password-error-msg"} className="error">
+                  {passwordError}
+                </p>
+              )}
+              <input
+                autoComplete="off"
+                data-cy="confirm-password-input"
+                name="confirmPassword"
+                onChange={onChangeHandler}
+                value={data.confirmPassword}
+                type="password"
+                placeholder="Confirm Password"
+                required
+              />
+              {confirmPasswordError && (
+                <p data-cy={"confirm-password-error-msg"} className="error">
+                  {confirmPasswordError}
+                </p>
+              )}
+            </>
           )}
-          {emailError && currState === "Login" && (
-            <p data-cy={"required-email-error-msg"} className="error">
-              {emailError}
-            </p>
+          {currState === "Login" && (
+            <>
+              <input
+                autoComplete="off"
+                data-cy="password-input"
+                name="password"
+                onChange={onChangeHandler}
+                value={data.password}
+                type="password"
+                placeholder="Password"
+                required
+              />
+              {passwordError && (
+                <p data-cy={"required-password-error-msg"} className="error">
+                  {passwordError}
+                </p>
+              )}
+            </>
           )}
-
-          <input
-            autoComplete="off"
-            data-cy="password-input"
-            name="password"
-            onChange={onChangeHandler}
-            value={data.password}
-            type="password"
-            placeholder="Password"
-            required
-          />
-          {passwordError && currState === "Sign Up" && (
-            <p data-cy={"invalid-password-error-msg"} className="error">
-              {passwordError}
-            </p>
-          )}
-          {passwordError && currState === "Login" && (
-            <p data-cy={"required-password-error-msg"} className="error">
-              {passwordError}
-            </p>
-          )}
-          {currState === "Login" ? (
-            <></>
-          ) : (
-            <input
-              autoComplete="off"
-              data-cy="confirm-password-input"
-              name="confirmPassword"
-              onChange={onChangeHandler}
-              value={data.confirmPassword}
-              type="password"
-              placeholder="Confirm Password"
-              required
-            />
-          )}
-          {confirmPasswordError && currState === "Sign Up" && (
-            <p data-cy={"confirm-password-error-msg"} className="error">
-              {confirmPasswordError}
-            </p>
+          {currState === "Forgot Password" && (
+            <>
+              <input
+                autoComplete="off"
+                data-cy={"email-input"}
+                name="email"
+                onChange={onChangeHandler}
+                value={data.email}
+                type="text"
+                placeholder="Your email"
+                required
+              />
+              {emailError && (
+                <p data-cy={"required-email-error-msg"} className="error">
+                  {emailError}
+                </p>
+              )}
+            </>
           )}
         </div>
         <button
           type="submit"
           data-cy={"sign-in-sign-up-button"}
-          disabled={isSignUpDisabled}>
-          {currState === "Sign Up" ? "Create account" : "Login"}
+          disabled={isSignUpDisabled && currState !== "Forgot Password"}>
+          {currState === "Sign Up"
+            ? "Create account"
+            : currState === "Login"
+            ? "Login"
+            : "Send reset link"}
         </button>
-        <div className="login-popup-condition">
-          <input type="checkbox" data-cy={"privacy-policy-checkbox"} required />
-          <p>By continuing, I agree to the terms of use & privacy policy.</p>
-        </div>
+        {currState !== "Forgot Password" && (
+          <div className="login-popup-condition">
+            <input
+              type="checkbox"
+              data-cy={"privacy-policy-checkbox"}
+              required
+            />
+            <p>By continuing, I agree to the terms of use & privacy policy.</p>
+          </div>
+        )}
         {currState === "Login" ? (
           <p>
             Create a new account?{" "}
             <span onClick={() => setCurrState("Sign Up")}>Click here</span>
           </p>
-        ) : (
+        ) : currState === "Sign Up" ? (
           <p>
             Already have an account?
             <span
@@ -252,6 +322,18 @@ const LoginPopup = ({ setShowLogin }) => {
               onClick={() => setCurrState("Login")}>
               {" "}
               Login here
+            </span>
+          </p>
+        ) : (
+          <p>
+            Back to <span onClick={() => setCurrState("Login")}>Login</span>
+          </p>
+        )}
+        {currState === "Login" && (
+          <p>
+            Forgot your password?{" "}
+            <span onClick={() => setCurrState("Forgot Password")}>
+              Click here
             </span>
           </p>
         )}

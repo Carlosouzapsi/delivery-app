@@ -32,6 +32,11 @@ class SignSignupPopUpActions {
     signInSignupPopUp.assertSignUpConfirmPasswordInputError();
     signInSignupPopUp.assertConfirmPasswordErrorText();
   }
+
+  static assertInvalidEmailPasswordErrors() {
+    signInSignupPopUp.assertInvalidEmailPasswordErrorToast();
+    signInSignupPopUp.assertInvalidEmailPasswordErrorToastText();
+  }
 }
 
 export default SignSignupPopUpActions;
