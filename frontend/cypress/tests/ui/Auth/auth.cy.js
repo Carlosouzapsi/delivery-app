@@ -118,7 +118,7 @@ describe("User Signup and Login", function () {
       Storage.userLogout();
     });
 
-    it("Should do login sucessfully", function () {
+    it("Should do login successfully", function () {
       signSignupPopUpActions.fillLoginForm(
         fakeUserLogin.email,
         fakeUserLogin.validPassword

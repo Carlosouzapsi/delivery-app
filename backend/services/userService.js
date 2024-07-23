@@ -3,9 +3,9 @@ const {
   FormateData,
   GenerateSalt,
   GenerateSignature,
+  ValidateSignature,
   ValidatePassword,
   GeneratePassword,
-  createPasswordResetLink,
   nodeMailerConfig,
 } = require("../utils/utils");
 const validator = require("validator");
@@ -138,6 +138,33 @@ class UserService {
         const resetLink = `http://localhost:4000/reset-password/${token}`;
         const sendResetLinkMail = await nodeMailerConfig(email, resetLink);
         return FormateData({ sendResetLinkMail });
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateUserForgotPassword(token, password, confirmPassword) {
+    try {
+      const validateToken = await ValidateSignature(token);
+      console.log(validateToken);
+      return;
+      if (password !== confirmPassword) {
+        throw new ValidationError("Password does not match");
+      }
+    } catch (err) {
+      throw err;
+    }
+    try {
+      try {
+        const userUpdated = await this.repository.updateUserById(userId, {
+          password: hashedPassword,
+        });
+
+        return FormateData(userUpdated);
+      } catch (err) {
+        console.error(err);
+        throw err;
       }
     } catch (err) {
       throw err;

@@ -5,6 +5,8 @@ const Stripe = require("stripe");
 const nodemailer = require("nodemailer");
 const STRIPE_KEY = require("../config");
 
+
+
 module.exports.nodeMailerConfig = async (email, link) => {
   let testAccount = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({

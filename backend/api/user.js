@@ -82,9 +82,19 @@ module.exports = (app) => {
 
   app.post("/user/reset-password/:token", async (req, res, next) => {
     const { token } = req.params;
-    const { password } = req.body;
+    const { password, confirmPassword } = req.body;
 
     try {
+      const { data } = await userService.updateUserForgotPassword(
+        token,
+        password,
+        confirmPassword
+      );
+      return res.json({
+        success: true,
+        message: "password updated",
+        data: data,
+      });
     } catch (err) {
       next(err);
     }
