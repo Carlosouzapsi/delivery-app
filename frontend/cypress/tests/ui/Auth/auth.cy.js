@@ -4,12 +4,12 @@ import signSignupPopUpActions from "../../../components/signinSignupPopUp/action
 import { Storage } from "../../../support/shared/generalClasses/Storage";
 import { Requests } from "../../../support/shared/generalClasses/Requests";
 describe("User Signup and Login", function () {
-  context.only("Signup", function () {
+  context("Sign up", function () {
     before(function () {
       Requests.apiClearData();
     });
     beforeEach(function () {
-      signInSignupPopUp.goTo("localhost:5173");
+      signInSignupPopUp.goTo("/");
       signInSignupPopUp.clickOnSignInBtn();
       signInSignupPopUp.assertPopUpTitle("Sign Up");
     });
@@ -97,7 +97,7 @@ describe("User Signup and Login", function () {
       signSignupPopUpActions.assertConfirmPasswordInputErrors();
     });
   });
-  context("Signin", function () {
+  context("Sign in", function () {
     before(function () {
       Requests.apiClearData();
       const payload = {
@@ -139,24 +139,21 @@ describe("User Signup and Login", function () {
       signSignupPopUpActions.assertInvalidEmailPasswordErrors();
     });
     it("Should not do login with a blank email", function () {
-      cy.getBySel("email-input").type("a").clear();
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("privacy-policy-checkbox").click();
-      cy.getBySel("sign-in-sign-up-button").click();
-      cy.get('[data-cy="required-email-error-msg"]');
-      const errorEmailMessage = "Email field is required";
-      cy.getBySel("required-email-error-msg").should(
-        "contain",
-        errorEmailMessage
+      signSignupPopUpActions.fillLoginForm(
+        fakeUserLogin.email,
+        fakeUserLogin.validPassword
       );
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clearNewUserEmailField();
+
+      signSignupPopUpActions.assertEmailInputRequiredErrors();
     });
     it("Should not do login with a invalid password", function () {
-      cy.getBySel("email-input").type(fakeUserLogin.email).clear();
-      cy.getBySel("password-input").type(fakeUser.validPassword);
-      cy.getBySel("privacy-policy-checkbox").click();
-      cy.getBySel("sign-in-sign-up-button").click();
-      const errorPasswordMessage = "invalid email or password";
-      cy.getBySel("password-error-msg").should("contain", errorPasswordMessage);
+      signSignupPopUpActions.fillLoginForm(fakeUserLogin.email, "invalidTest");
+
+      signInSignupPopUp.clickOnCheckboxPolicyTerms();
+      signInSignupPopUp.clickOnCreateAccountBtn();
+      signSignupPopUpActions.assertInvalidEmailPasswordErrors();
     });
   });
 });

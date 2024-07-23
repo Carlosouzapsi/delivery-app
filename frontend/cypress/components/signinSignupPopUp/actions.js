@@ -23,6 +23,11 @@ class SignSignupPopUpActions {
     signInSignupPopUp.assertEmailErrorText();
   }
 
+  static assertEmailInputRequiredErrors() {
+    signInSignupPopUp.assertSignUpEmailInputRequiredError();
+    signInSignupPopUp.assertEmailErrorRequiredText();
+  }
+
   static assertPasswordInputErrors() {
     signInSignupPopUp.assertSignUpPasswordInputError();
     signInSignupPopUp.assertPasswordErrorText();

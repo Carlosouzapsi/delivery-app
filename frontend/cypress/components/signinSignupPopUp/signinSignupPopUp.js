@@ -67,6 +67,12 @@ class signInSignupPopUp {
 
   static assertSignUpEmailInputError() {
     return TestingTool.assertElementExists({
+      element: pageElements.valid_email_error_msg,
+    });
+  }
+
+  static assertSignUpEmailInputRequiredError() {
+    return TestingTool.assertElementExists({
       element: pageElements.required_email_error_msg,
     });
   }
@@ -89,6 +95,12 @@ class signInSignupPopUp {
 
   static assertEmailErrorText() {
     return TestingTool.assertContainsText(pageTexts.email_field_error_text);
+  }
+
+  static assertEmailErrorRequiredText() {
+    return TestingTool.assertContainsText(
+      pageTexts.email_field_error_required_text
+    );
   }
 
   static assertPasswordErrorText() {
