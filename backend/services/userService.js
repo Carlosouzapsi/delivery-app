@@ -3,13 +3,14 @@ const {
   FormateData,
   GenerateSalt,
   GenerateSignature,
-  ValidateSignature,
+  ValidateResetToken,
   ValidatePassword,
   GeneratePassword,
   nodeMailerConfig,
 } = require("../utils/utils");
 const validator = require("validator");
 const { APIError, ValidationError } = require("../utils/app-errors");
+const { validate } = require("../models/userModel");
 
 class UserService {
   constructor() {
@@ -135,7 +136,7 @@ class UserService {
         const token = await GenerateSignature({
           _id: existingUser._id,
         });
-        const resetLink = `http://localhost:4000/reset-password/${token}`;
+        const resetLink = `http://localhost:4001/user/reset-password/${token}`;
         const sendResetLinkMail = await nodeMailerConfig(email, resetLink);
         return FormateData({ sendResetLinkMail });
       }
@@ -146,25 +147,20 @@ class UserService {
 
   async updateUserForgotPassword(token, password, confirmPassword) {
     try {
-      const validateToken = await ValidateSignature(token);
-      console.log(validateToken);
-      return;
       if (password !== confirmPassword) {
         throw new ValidationError("Password does not match");
       }
-    } catch (err) {
-      throw err;
-    }
-    try {
-      try {
-        const userUpdated = await this.repository.updateUserById(userId, {
-          password: hashedPassword,
-        });
-
-        return FormateData(userUpdated);
-      } catch (err) {
-        console.error(err);
-        throw err;
+      const validateUserToken = await ValidateResetToken(token);
+      if (validateUserToken) {
+        console.log(validateUserToken._id);
+        console.log(password);
+        let salt = await GenerateSalt();
+        let hashedPassword = await GeneratePassword(password, salt);
+        const userPasswordUpdated = await this.repository.updateUserById(
+          validateUserToken._id,
+          { password: hashedPassword, salt: salt }
+        );
+        return FormateData({ userPasswordUpdated });
       }
     } catch (err) {
       throw err;

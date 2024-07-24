@@ -5,8 +5,6 @@ const Stripe = require("stripe");
 const nodemailer = require("nodemailer");
 const STRIPE_KEY = require("../config");
 
-
-
 module.exports.nodeMailerConfig = async (email, link) => {
   let testAccount = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({
@@ -74,6 +72,15 @@ module.exports.GenerateSignature = async (payload) => {
   } catch (err) {
     console.log(err);
     return err;
+  }
+};
+
+module.exports.ValidateResetToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, "jg_youtube_tutorial");
+    return decoded;
+  } catch (err) {
+    console.error(err);
   }
 };
 
